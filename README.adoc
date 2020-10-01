@@ -1,0 +1,7 @@
+= Dark Patterns in Czechia: Finding them on the Czech Internet
+
+
+== LOG ==
+* *1.10. - First meeting.* +
+Topic clarifications. I showed https://github.com/Lznah/misc/mindmap.png[a mindmap], that I created. +
+*Before the next meeting:* Try to run https://github.com/aruneshmathur/dark-patterns[this implementation] to detect dark patterns on a Czech Website (For example: Alza.cz)
