@@ -2,6 +2,13 @@
 
 
 == LOG ==
+
+
+* *16.10. - Second meeting.* +
+I was not successful with running their project. Problem is, that they used old Python 2.7, which is not supported anymore and because of that, a lot of packages in requirements.txt are not available online anymore. Also spaCy wordlist should be installed directly throught spaCy framework and not thought pip. +
+I found out that they used more programming languages (R, Java, Python and Javascript) than expected. They used Python and Javascript for crawling. Celery framework, OpenWPN are used to crawl hundreds of million pages. MutationObserver is used in webscraping and classification of changed UI elements over some period of time. (Some dark patterns changes their color, bg-color or other style after some certain actions.) +
+*Before the next meeting:* Try once again to run https://github.com/aruneshmathur/dark-patterns[this implementation] to detect dark patterns on a Czech Website (Now easier than: Alza.cz, because Alza can block crawler). If crawling will not work, download HTML and try data extraction.
+
 * *1.10. - First meeting.* +
 Topic clarifications. I showed https://github.com/Lznah/DarkPatterns/blob/master/misc/mindmap.png[a mindmap], that I created. +
 *Before the next meeting:* Try to run https://github.com/aruneshmathur/dark-patterns[this implementation] to detect dark patterns on a Czech Website (For example: Alza.cz)
