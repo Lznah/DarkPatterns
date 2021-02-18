@@ -1,7 +1,5 @@
 import sys
 import celery
-import csv
-import os
 # import pymongo
 from celery.exceptions import TimeLimitExceeded, MaxRetriesExceededError
 from logger import logger
@@ -19,35 +17,20 @@ BACKEND='redis://localhost:6379/0'
 # }
 MAX_RETRIES = 3
 HARD_TIMEOUT = 30
-BASIC_URL = "https://obchody.heureka.cz/?f="
-OUTPUT_FOLDER = 'output'
 app = celery.Celery('celery_extract_eshops', broker=BROKER_NETWORK)
 
 @app.task(name="extract_eshops", max_retries=MAX_RETRIES, time_limit=HARD_TIMEOUT, ignore_result=True)
 def call_crawl(page):
-    url = BASIC_URL + page
     try:
-        eshops = crawl(url)
-        write_to_file(page, eshops)
+        crawl(page)
     except MaxRetriesExceededError:
-        logger.error("MaxRetriesExceededError while crawling %s" % url)
+        logger.error("MaxRetriesExceededError while crawling page %s" % page)
     except TimeLimitExceeded:
-        logger.error("TimeLimitExceeded while crawling %s" % url)
+        logger.error("TimeLimitExceeded while crawling page %s" % page)
     except Exception:
-        logger.exception("Exception while crawling %s" % url)
+        logger.exception("Exception while crawling page %s" % page)
     finally:
         pass
-
-def write_to_file(page, eshops):
-    try:
-        path = os.path.join(OUTPUT_FOLDER, page+'.csv')
-        csv_columns = ['name', 'href']
-        with open(path, 'w') as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
-            for data in eshops:
-                writer.writerow(data)
-    except IOError:
-        logger.error("I/O error")
 
 def main(n_pages):
     n_links = 0
