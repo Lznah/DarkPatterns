@@ -1,0 +1,4 @@
+__pycache__
+crawler/output/*
+*.log
+.DS_Store
