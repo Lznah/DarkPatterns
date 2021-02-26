@@ -1,3 +1,5 @@
 celery
 selenium
 multiprocessing_logging
+pandas
+requests
