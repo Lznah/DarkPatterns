@@ -1,0 +1,14 @@
+Náhodně jsem vybral 100 linků z nichž 6 nebylo eshopem, 13 bylo již nefunkčních. Pravděpodobně čím níže link je, tím menší pravděpodobnost, že bude fungovat. Abych to mohl potvrdit, tak by bylo třeba otestovat více odkazů. Tento list jsem doplnit o nové eshopy, které jsem taktéž ověřil, zda se jedná o eshopy.
+
+Update:
+Aktualizoval jsem program tak, aby fungoval v Pythonu3.
+Zároveň jsem přidal možnost vyhledávat bez predikce. To jsem dělal kvůli tomu, abych mohl vyhledat seznam linků, které poté určím, že jsou produktové stránky. Nicméně systém nefungoval tak jak jsem myslel a procházel zbytečně moc webových stránek, které evidentně nebyly produktové.
+Program jsem upravil také tak, že jsem přidal různé české varianty a překlady slov a používáných frází, které jsou programem použity na vyhledávání akčních tlačítek jako "Vložit do košíku" a také na filtraci stránek, které zřejmě nejsou produktové (kontakty, o nás, košík atp.)
+
+Provedl jsem krátný průzkum nejčastěji používaných frází pro vkládání do košíku. Provedl jsem tedy manuální procházení produktových stránek ze seznamu 50 stránek a našel tyto nejčastější fráze:
+1) Do košíku (19 z 50)
+2) Přidat do košíku (18 z 50)
+3) Koupit (7 z 50)
+4) Vložit do košíku (6 z 50)
+
+Z tohoto vyplývá, že jediné použité fráze jsou "do košíku" a "koupit". S vyznamností se neobjevují odchylky ve skloňování atp.

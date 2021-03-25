@@ -3,3 +3,13 @@ selenium
 multiprocessing_logging
 pandas
 requests
+polyglot
+icu
+pyicu==2.3.1
+pycld2
+numpy
+pyvirtualdisplay
+tld
+urlparse
+sklearn
+unidecode
