@@ -7,9 +7,16 @@ import requests
 import pandas
 import time
 
+def get_host():
+    import os
+    host = os.environ.get('AMQP_HOST')
+    if host is None:
+        host = "127.0.0.1"
+    return host
+
+BROKER_NETWORK="pyamqp://guest@%s//" % get_host()
 INPUT_FOLDER = os.path.join('input')
 OUTPUT_FOLDER = os.path.join('output')
-BROKER_NETWORK="pyamqp://guest@localhost//"
 MAX_RETRIES = 1
 app = celery.Celery('celery_reveal_true_domains', broker=BROKER_NETWORK)
 
