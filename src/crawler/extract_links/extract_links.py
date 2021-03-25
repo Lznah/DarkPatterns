@@ -155,7 +155,7 @@ class Spider(object):
         chrome_options.add_argument("--headless")
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.addArguments("--lang=cs")
+        chrome_options.add_argument("--lang=cs")
         self.driver = webdriver.Chrome(options=chrome_options)
         self.driver.set_page_load_timeout(PAGE_LOAD_TIMEOUT)
         self.external_link_err_cnt = 0
