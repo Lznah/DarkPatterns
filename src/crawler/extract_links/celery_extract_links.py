@@ -3,8 +3,7 @@ import celery
 import csv
 from pyvirtualdisplay import Display
 from celery.exceptions import TimeLimitExceeded, MaxRetriesExceededError
-from logger import logger
-from crawler import crawl, VIRT_DISPLAY_DIMS
+from crawler import logger, crawl, VIRT_DISPLAY_DIMS
 from time import sleep
 
 def get_host():
