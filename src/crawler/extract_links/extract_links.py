@@ -125,7 +125,7 @@ def get_prod_likelihoods(urls, as_dict=False):
 class Spider(object):
 
     def __init__(self, top_url, max_level=5, max_links=50):
-        top_url = "http://"+top_url.replace("http://").replace("https://")
+        top_url = "http://"+top_url.replace("http://","").replace("https://","")
         self.top_url = top_url
         self.max_level = max_level
         self.max_links = max_links
