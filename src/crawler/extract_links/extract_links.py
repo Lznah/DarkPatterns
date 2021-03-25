@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import division
 import os
 import sys
@@ -46,7 +47,6 @@ class OffDomainNavigationError(Exception):
 class TooManyOffDomainNavigationErrors(Exception):
     """Crawler is redirected to a different domain too many times."""
     pass
-
 
 class TooManyTimeoutErrors(Exception):
     """Too many timeouts while loading pages."""
