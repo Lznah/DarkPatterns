@@ -125,7 +125,7 @@ def get_prod_likelihoods(urls, as_dict=False):
 class Spider(object):
 
     def __init__(self, top_url, max_level=5, max_links=50):
-        self.top_url = top_url
+        self.top_url = "http://"+top_url.replace("http://").replace("https://")
         self.max_level = max_level
         self.max_links = max_links
         self.observed_links = {}  # page url -> links
@@ -154,6 +154,7 @@ class Spider(object):
         chrome_options.add_argument("--headless")
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
+        options.addArguments("--lang=cs")
         self.driver = webdriver.Chrome(options=chrome_options)
         self.driver.set_page_load_timeout(PAGE_LOAD_TIMEOUT)
         self.external_link_err_cnt = 0

@@ -23,7 +23,7 @@ app = celery.Celery('celery_extract_eshop_links', broker=BROKER_NETWORK)
 @app.task(name="celery_extract_eshop_links", max_retries=MAX_RETRIES, time_limit=HARD_TIMEOUT, ignore_result=True)
 def call_crawl(page):
     try:
-        display = Display(visible=True, size=VIRT_DISPLAY_DIMS)
+        display = Display(visible=False, size=VIRT_DISPLAY_DIMS)
         display.start()
         crawl(page)
     except MaxRetriesExceededError:
@@ -40,8 +40,7 @@ def main(domains_file):
         csv_reader = csv.reader(csv_file, delimiter=',')
         for row in csv_reader:
             url_address = row[3]
-            #call_crawl.delay(url_address)
-            break
+            call_crawl.delay(url_address)
         logger.info("Finished adding %d URLs to celery queue" % len(list(csv_reader)))
 
 if __name__ == '__main__':
