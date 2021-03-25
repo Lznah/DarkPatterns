@@ -5,16 +5,14 @@ from celery.exceptions import TimeLimitExceeded, MaxRetriesExceededError
 from logger import logger
 from crawler import crawl
 
-#BROKER_NETWORK="pyamqp://guest@172.18.0.2//"
-BROKER_NETWORK="pyamqp://guest@localhost//"
-# BROKER_NETWORK="redis://localhost:6379/0"
-BACKEND='redis://localhost:6379/0'
-# BACKEND='mysql://root:root@localhost/darkpatterns'
-# BACKEND = 'mongodb://mongoadmin:secret@localhost:27888/admin'
-# mongodb_backend_settings = {
-#     'database': 'dp',
-#     'taskmeta_collection': 'eshops',
-# }
+def get_host():
+    import os
+    host = os.environ.get('AMQP_HOST')
+    if host is None:
+        host = "127.0.0.1"
+    return host
+
+BROKER_NETWORK="pyamqp://guest@%s//" % get_host()
 MAX_RETRIES = 3
 HARD_TIMEOUT = 30
 app = celery.Celery('celery_extract_eshops', broker=BROKER_NETWORK)
