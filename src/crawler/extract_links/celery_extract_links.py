@@ -33,17 +33,16 @@ def call_crawl(page):
     except Exception:
         logger.exception("Exception while crawling page %s" % page)
     finally:
-        if display:
-            display.stop()
+        pass
 
 def main(domains_file):
     with open(domains_file) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         for row in csv_reader:
             url_address = row[3]
-            call_crawl.delay(url_address)
+            #call_crawl.delay(url_address)
             break
-        logger.info("Finished adding %d URLs to celery queue" % len(csv_reader))
+        logger.info("Finished adding %d URLs to celery queue" % len(list(csv_reader)))
 
 if __name__ == '__main__':
     main(sys.argv[1])
