@@ -1,0 +1,21 @@
+Únor 2021
+
+Získání adres eshopů:
+    Procházení Heureka.cz:
+    - Prvně se provadi extract_eshops crawler z obchody.heureka.cz, který stáhl cca 73898. Výstupem jsou cca. 2000 csv souborů, kde každý obsahuje přibližně 20 odkazů na Heuréce a jedná se o přesměrované odkazy. V csv je i jméno obchodu.
+
+    Získání reálných adres po přesměrování:
+    - Následně je třeba tyto přesměrování znovu projít přes reveal_true_domains, které odkazy jsou platné, zda stále existují. Výstupem tohoto crawleru je aktualizovaný seznam, který obsahuje jméno obchodu, reálná url adresa obchodu a chyby, proč nebylo možné na stránku přistoupit. Může se jednat o vyhozenou výjimku, či špatný status code. Očekává se 200. Data jsou také vyčištěná o duplicity, které jsou na stejné doméně, ale obsahují jinou cestu v URI adrese.
+
+    Čištění získaných adres eshopů:
+    - Tento aktualizovaný seznam je třeba očistit, což se provádí v Jupyter Notebooku domain_dataset_cleansing.ipynb. Z původních 73898 adres získaných v crawleru extract_eshops je získáno 42280 adres. Ty je třeba následně dále znova projít, protože se nemusí jednat o české stránky a ani eshopy. Identifikace, zda se jedná o českou stránku je využit classifikátor v knihovně polyglot. To, že se jedná o eshop je usouzeno z předpokladu, že jsou data získána ze "Seznamu eshopů" z Heuréka.cz. To, zda se jedná o eshop není důležité pro výsledky diplomové práce. Je to důležité kvůli tomu, aby se crawler nedělal zbytečnou práci při hledání produktových stránek, které je prováděno dále.
+
+
+Získávání kandidátů na Dark Patterns z produktových stránek:
+- Pro hledání produktových stránek je vytvořený spider, který prochází adresy na doméně a rozpoznává z těchto adres, které adresy jsou produktových stránek. Rozpoznání produktové stránky zajištuje naučený klasifikátor na rozpoznávání produktových stránek.
+
+    Učení modelu pro klasifikaci produktové stránky:
+    - Tento klasifikátor je naučený v Jupyter notebooku ProductPageClassifier.ipynb. Adresy, které jsou využity pro učení klasifikátoru jsou získány přes jednoduchý spider z náhodných domén v datasetu. Ručně jsou tyto získané adresy ohodnoceny, zda se jedná o produktovou stránku, či nikoliv. 
+
+    Procházení produktových stránek:
+    - 
