@@ -29,19 +29,19 @@ def build_features(df, load_scaler_from_file=False):
         lambda x: x.count("-"))
     processed_features["num_slash"] = processed_features["path"].map(
         lambda x: x.rstrip("/").count("/"))
-    processed_features["contains_product"] = processed_features["path"].map(
-        lambda x: 1 if "product" in x else 0)
-    processed_features["contains_category"] = processed_features["path"].map(
-        lambda x: 1 if "category" in x else 0)
-    # processed_features["longest_num"] = processed_features["path"].map(lambda x: len(max(re.findall(r'[0-9]+', x), key=len)) if re.search(r'\d', x) else 0)
-    processed_features["contains_pid"] = processed_features["path"].map(
-        lambda x: has_product_id(x))
+    processed_features["contains_product"] = processed_features["path"].map(lambda x: 1 if "product" in x else 0)
+    processed_features["contains_produkt"] = processed_features["path"].map(lambda x: 1 if "produkt" in x else 0)
+    processed_features["contains_detail"] = processed_features["path"].map(lambda x: 1 if "detail" in x else 0)
+    processed_features["contains_category"] = processed_features["path"].map(lambda x: 1 if "category" in x else 0)
+    processed_features["contains_kategorie"] = processed_features["path"].map(lambda x: 1 if "kategorie" in x else 0)
+    processed_features["longest_num"] = processed_features["path"].map(lambda x: len(max(re.findall(r'[0-9]+', x), key=len)) if re.search(r'\d', x) else 0)
+    processed_features["contains_pid"] = processed_features["path"].map(lambda x: has_product_id(x))
     cols_to_drop = ['url', 'path']
     processed_features.drop(cols_to_drop, axis=1, inplace=True)
     scaled_features = processed_features.copy()
     FEATURES_TO_SCALE = ["num_hyphen", "num_slash"]
     features = scaled_features[FEATURES_TO_SCALE]
-    scaler_filename = 'StandardScaler.est'
+    scaler_filename = '../../classifiers/product_page/StandardScaler.est'
     if load_scaler_from_file and os.path.isfile(scaler_filename):
         scaler = pickle.load(open(scaler_filename, 'rb'))
     else:
