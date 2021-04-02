@@ -39,7 +39,7 @@ def build_features(df, load_scaler_from_file=False):
     cols_to_drop = ['url', 'path']
     processed_features.drop(cols_to_drop, axis=1, inplace=True)
     scaled_features = processed_features.copy()
-    FEATURES_TO_SCALE = ["num_hyphen", "num_slash", "longest_num"]
+    FEATURES_TO_SCALE = ["num_hyphen","num_slash","longest_num"]
     features = scaled_features[FEATURES_TO_SCALE]
     scaler_filename = '../../classifiers/product_page/StandardScaler.est'
     if load_scaler_from_file and os.path.isfile(scaler_filename):
