@@ -12,3 +12,5 @@ Provedl jsem krátný průzkum nejčastěji používaných frází pro vkládán
 4) Vložit do košíku (6 z 50)
 
 Z tohoto vyplývá, že jediné použité fráze jsou "do košíku" a "koupit". S vyznamností se neobjevují odchylky ve skloňování atp.
+
+Přidat pak info o tom, na cem to bezelo, jak rychle atp.

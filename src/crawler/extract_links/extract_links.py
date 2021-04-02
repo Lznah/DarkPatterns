@@ -94,7 +94,7 @@ PAGE_LOAD_TIMEOUT = 60
 LINK_SEL_PRODUCT_LIKELIHOOD = 2 # can be used, if u change default selection method in visit_random_page method
 LINK_SEL_RANDOM_CHOICE = 3
 LINK_SEL_PRODUCT_LIKELIHOOD_AND_EL_SIZE = 4
-LINK_SEL_NO_PREDICTION = True
+LINK_SEL_NO_PREDICTION = False
 
 
 logger = logging.getLogger(__name__)
@@ -111,7 +111,7 @@ def get_prod_likelihoods(urls, as_dict=False):
         return []
     df = pd.DataFrame.from_records([(url,) for url in urls], columns=["url"])
     X = build_features(df, load_scaler_from_file=True)
-    model_filename = 'SGDClassifier.est'
+    model_filename = '../../classifiers/product_page/SGDClassifier.est'
     sgd_est = pickle.load(open(model_filename, 'rb'))
     # [1] for product probability
     probas = [x[1] for x in sgd_est.predict_proba(X.values)]
