@@ -118,7 +118,7 @@ def get_prod_likelihoods(urls, as_dict=False):
     ranked_probas = zip(urls, probas)
     if as_dict:
         return dict(ranked_probas)
-    ranked_probas.sort(key=lambda x: x[1], reverse=True)
+    ranked_probas = sorted(ranked_probas, key=lambda x: x[1], reverse=True)
     return ranked_probas
 
 
