@@ -2,7 +2,7 @@ import sys
 import celery
 import csv
 from celery.exceptions import TimeLimitExceeded, MaxRetriesExceededError
-from extract_links import logger, crawl, VIRT_DISPLAY_DIMS
+from extract_links import logger, crawl, OUTDIR
 from time import sleep
 
 def get_host():
@@ -33,11 +33,15 @@ def call_crawl(page):
         pass
 
 def main(domains_file):
+    import os
+    existing_folders = os.listdir(OUTDIR)
+
     with open(domains_file) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         for row in csv_reader:
             url_address = row[3]
-            call_crawl.delay(url_address)
+            if url_address not in existing_folders:
+                call_crawl.delay(url_address)
         logger.info("Finished adding %d URLs to celery queue" % len(list(csv_reader)))
 
 if __name__ == '__main__':
