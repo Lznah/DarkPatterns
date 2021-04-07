@@ -1,7 +1,6 @@
 import sys
 import celery
 import csv
-from pyvirtualdisplay import Display
 from celery.exceptions import TimeLimitExceeded, MaxRetriesExceededError
 from extract_links import logger, crawl, VIRT_DISPLAY_DIMS
 from time import sleep
@@ -23,8 +22,6 @@ app = celery.Celery('celery_extract_eshop_links', broker=BROKER_NETWORK)
 @app.task(name="celery_extract_eshop_links", max_retries=MAX_RETRIES, time_limit=HARD_TIMEOUT, ignore_result=True)
 def call_crawl(page):
     try:
-        display = Display(visible=False, size=VIRT_DISPLAY_DIMS)
-        display.start()
         crawl(page)
     except MaxRetriesExceededError:
         logger.error("MaxRetriesExceededError while crawling page %s" % page)

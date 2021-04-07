@@ -17,8 +17,6 @@ import logging
 import pickle
 import pandas as pd
 
-from pyvirtualdisplay import Display
-
 from selenium.common.exceptions import WebDriverException,\
     NoAlertPresentException, TimeoutException, JavascriptException
 from selenium.webdriver.support import expected_conditions as EC
@@ -52,21 +50,19 @@ class TooManyTimeoutErrors(Exception):
     """Too many timeouts while loading pages."""
     pass
 
-
-VIRT_DISPLAY_DIMS = (1680, 1920)
-
 # HOVER_BEFORE_CLICKING = True # not used
 ################################
 DEBUG = True
 DEBUG_ADD_TO_CART = False
 MAX_PROD_LINKS = 5  # we want 5 product links
+SAVE_HTML = False
+SAVE_SCREENSHOTS = False
 ################################
 
 if DEBUG:
     DURATION_SLEEP_AFTER_GET = 3
 else:
     DURATION_SLEEP_AFTER_GET = 3  # Sleep 3 seconds after each page load
-ENABLE_XVFB = True  # use virtual display
 
 
 OUTDIR = "output"
@@ -112,7 +108,8 @@ def get_prod_likelihoods(urls, as_dict=False):
     df = pd.DataFrame.from_records([(url,) for url in urls], columns=["url"])
     X = build_features(df, load_scaler_from_file=True)
     model_filename = '../../classifiers/product_page/SGDClassifier.est'
-    sgd_est = pickle.load(open(model_filename, 'rb'))
+    with open(model_filename, 'rb') as f:
+        sgd_est = pickle.load(f)
     # [1] for product probability
     probas = [x[1] for x in sgd_est.predict_proba(X.values)]
     ranked_probas = zip(urls, probas)
@@ -367,9 +364,10 @@ class Spider(object):
 
     def execute_dismiss_dialog(self):
         js = self.driver.execute_script
-        return js(open('common.js').read() + ';' +
-                  open('dismiss_dialogs.js').read() + ';' +
-                  "return dismissDialog();")
+        with open('common.js') as f1, open('dismiss_dialogs.js') as f2:
+            return js(f1.read() + ';' +
+                    f2.read() + ';' +
+                    "return dismissDialog();")
 
     def close_dialog(self):
         # just to try on different website
@@ -379,7 +377,8 @@ class Spider(object):
             safe_url = safe_filename_from_url(self.top_url)
             png_file_name = self.png_file_name.replace(
                 "PAGE_NO", str("BEFORE")).replace("URL", safe_url)
-            self.driver.get_screenshot_as_file(png_file_name)
+            if SAVE_SCREENSHOTS:
+                self.driver.get_screenshot_as_file(png_file_name)
 
             try:
                 n_closed_dialog_elements = self.execute_dismiss_dialog()
@@ -393,7 +392,8 @@ class Spider(object):
             if n_closed_dialog_elements:
                 png_file_name = self.png_file_name.replace(
                     "PAGE_NO", str("AFTER")).replace("URL", safe_url)
-                self.driver.get_screenshot_as_file(png_file_name)
+                if SAVE_SCREENSHOTS:
+                    self.driver.get_screenshot_as_file(png_file_name)
 
     def load_home_page(self):
         logger.info("Will visit %s" % self.top_url)
@@ -551,8 +551,10 @@ class Spider(object):
         page_src_file_name = self.page_src_file_name.replace(
             "PAGE_NO", str(link_no)).replace("URL", safe_url)
         try:
-            write_to_file(page_src_file_name, driver.page_source)
-            driver.get_screenshot_as_file(png_file_name)
+            if SAVE_HTML:
+                write_to_file(page_src_file_name, driver.page_source)
+            if SAVE_SCREENSHOTS:
+                driver.get_screenshot_as_file(png_file_name)
         except WebDriverException:
             logger.error("WebDriverException while dumping page data")
 
@@ -587,9 +589,10 @@ class Spider(object):
             raise AccessDeniedError()
 
         try:
-            is_product_by_buttons = js(open('common.js').read() + '\n' +
-                                       open('extract_add_to_cart.js').read() +
-                                       ";return isProductPage();")
+            with open('common.js') as f1, open('extract_add_to_cart.js') as f2:
+                is_product_by_buttons = js(f1.read() + '\n' +
+                                        f2.read() +
+                                        ";return isProductPage();")
         except JavascriptException:
             logger.exception("Exception in isProductPage")
             return False
@@ -749,17 +752,12 @@ def get_urls_from_csv(csv_file):
 
 def main(csv_file):
     t0 = time()
-    if ENABLE_XVFB:
-        display = Display(visible=False, size=VIRT_DISPLAY_DIMS)
-        display.start()
     p = Pool(16)
     shop_urls = []
     for url in get_urls_from_csv(csv_file):
         shop_urls.append(url)
 
     p.map(crawl, shop_urls)
-    if ENABLE_XVFB:
-        display.stop()
     logger.info("Finished in %0.1f mins" % ((time() - t0) / 60))
 
 
