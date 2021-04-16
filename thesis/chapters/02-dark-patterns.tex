@@ -1,11 +1,180 @@
 \chapter{Dark Patterns}
-Dark Pattern is relatively new term. The first presence of 
+Dark Pattern is a relatively new term. This neologism was firstly used by Harry Brignull in 2010\cite{dark-patterns-arstechnica} when he registered a domain darkpatterns.org. In this domain, Brignull created an online library to share user interface patterns with deceptive characteristics that intentionally confuse and enrol users in unwanted situations. Another purpose of this online library is to shame websites that use dark patterns.
+
 \section{Definition}
-\todo{Definice je to dark pattern.}
-\blind[3]
+Brignull described dark patterns like so: 'Dark Patterns are tricks used in websites and apps that make you do things that you did not mean to, like buying or signing up for something.'\cite{dark-patterns-brignull} His definition is a simplification to quickly understand what dark patterns are. However, it does not include all the dark patterns that Brignull describes. For example, there is a dark pattern that purposely focuses users attention on doing one action and distracts their attention from alternatives.
+
+A more accurate definition is the one used in the study made by Princeton researchers. They suggest this definition: 'Dark patterns are user interface design choices that benefit an online service by coercing, steering, or deceiving users into making decisions that, if fully informed and capable of selecting alternatives, they might not make.' \cite{dark-patterns-at-scale}
 \section{Taxonomy}
-\todo{Popsat různé taxonomie.}
-\blind[3]
-\section{Categories of Dark Patterns}
-\todo{Popsat typy a kategorie dark pattern.}
-\blind[15]
+
+Brignull also defined the first types of dark patterns. This list of types is continuously updated when a new type of dark pattern is found. In April 2021, there were twelve different types of dark patterns defined\cite{dark-patterns-brignull-types}.
+
+The researchers from Princeton University have redefined this list considering the results of their study. This list consists of fifteen types of dark patterns and seven broad categories. Their work also differs from the prior work\cite{dark-patterns-brignull}\cite{taxonomies-tales}\cite{taxonomies-conti} by the new proposed taxonomy. This new taxonomy focuses on the characteristics of dark patterns and cognitive biases that they exploit in users. They used their taxonomy to classify and describe discovered dark patterns.
+
+This thesis uses the same taxonomy defined by Princeton researchers. This taxonomy consists of five dimensions:
+
+\begin{description}
+    \item[Asymmetric] \hfill \\ The user interface presents more alternatives to a user. It is an asymmetric characteristic of a dark pattern if the user interface requires less effort to continue with the alternative that might be disadvantageous for users. A typical example is buttons for accepting and rejecting cookies on websites. Usually, the rejecting button is less noticeable. Also, if users want to reject saving cookies, the user interface forces them to read much more text and click many buttons for every single cookie.
+    \item[Covert] \hfill \\ The user interface shows evidence of covert characteristics if users may fail to recognise the intended outcome of a specific action. Users have experience with other user interfaces, and they may predict a similar outcome from the interface that shows similar traits as a decoy to influence their decision-making process. For instance, most of the websites offer a subscription to a newsletter in the process of registration. Usually, this subscription to the newsletter is done by ticking a checkbox in the registration form. When users start to read a sentence mentioning the subscription, they automatically expect that not ticking the checkbox means not subscribing to the newsletter.
+    \item[Deceptive] \hfill \\ The user interface induces false beliefs in users by presenting them with misleading information. For instance, a website may offer a discount for a limited period of time, but in reality, the discount is permanent. Another example is a website that shows how many users are watching the given product and how many products are in stock. This information can take advantage of the deal by steering users into making quick decisions or inducing false beliefs of the product's exclusivity.
+    \item[Hides Information] \hfill \\ The user interface intentionally delay presenting necessary information in places or in time, where or when users do not expect them to be presented. For instance, a website may present extra fees for a bought product at the very last step of the checkout.
+    \item[Restrictive] \hfill \\ The user interface restricts the set of choices available to users and takes advantage of it. For example, a website may require to sign up only with Facebook to collect additional personal information.
+\end{description}
+
+In addition to these dimensions, Princeton researchers define six different effects on users through exploiting different cognitive biases by specific dark patterns:
+
+\begin{itemize}
+    \item \textbf{Anchoring Effect}: The tendency of users to over-rely on the first piece of information in the future decision-making process.
+    \item \textbf{Bandwagon Effect}: The tendency of users to value more or believe in something simply because others do.
+    \item \textbf{Default Effect}: The tendency of users to stick with default options.
+    \item \textbf{Framing Effect}: The tendency of users to choose different options with knowledge of the same information, but with different way of presenting the options.
+    \item \textbf{Scarcity Bias}: The tendency of users to value more things that are more sparce.
+    \item \textbf{Sunk Cost Fallacy}: The tendency of users to continue an action, because they already invested time or other resources in it. Users tend to continue even if that action is capable to put them in an even worse situation.
+\end{itemize}
+
+\section{Types of Dark Patterns}
+Types introduced in this section are the same, that are defined in the paper from Princeton university\cite{dark-patterns-at-scale}. They are based on the types firstly published by Harry Brignull\cite{dark-patterns-brignull}.
+Princeton researchers discovered 15 types of dark patterns in total and they divided them into 7 broader categories. They are summariezed in the table \ref{darkpatterns}.
+    \subsection*{Sneaking}
+    It is an attempt to hide, disguise, or delay of information that is relevant to users. Users would likely change their action future action, if they knew about this information. There are 3 types of dark patterns in this category: Sneak into Basket, Hidden Costs, and Hidden Subscription. Examples of these dark patterns can be seen in figure \ref{figure-examples}
+    \blind[1]
+        \subsubsection*{Sneak into Basket}
+        This dark pattern adds aditional products into the user's basket without their consent. Usually, he is not aware of this fact. The added products are bonuses or additional services. For example additional year of warranty or a gift card. The important for this dark patterns is that it raises the total price and users migth not be aware of this fact. This dark pattern exploits the \emph{default effect} cognitive bias in users that was described earlier in this thesis. Literature here says, that this dart pattern is not \emph{covert}, because user can see the added products in their baskets.
+        \subsubsection*{Hidden Cost}
+        This is an attempt to add additional charges, typically at the end of the purchage process. Typical examples of this type of dark pattern are additional service fees or handling costs. This type of dark pattern is also not \emph{covert}, but it may be considered as partially \emph{deceptive}, because the information is delayed from users. Also, this dark pattern can be classified into \emph{hides information} dimension, as it attempts to hide information from users.
+        \begin{figure}
+            \centering
+            \tmpframe{\includegraphics[width=0.6\linewidth]{media/TODO-image.pdf}}
+            \caption{One image, $60\,\%$ of line width.  
+              \todo{Napsat pořádný titulek}}
+            \label{fig:TODO}
+        \end{figure}
+        \subsubsection*{Hidden Subscription}
+        \blind[1]
+        \begin{figure}
+            \centering
+            \tmpframe{\includegraphics[width=0.6\linewidth]{media/TODO-image.pdf}}
+            \caption{One image, $60\,\%$ of line width.  
+              \todo{Napsat pořádný titulek}}
+            \label{fig:TODO}
+        \end{figure}
+    \subsection*{Urgency}
+    \blind[1]
+        \subsubsection*{Countdown Timer}
+        \blind[1]
+        \begin{figure}
+            \centering
+            \tmpframe{\includegraphics[width=0.6\linewidth]{media/TODO-image.pdf}}
+            \caption{One image, $60\,\%$ of line width.  
+              \todo{Napsat pořádný titulek}}
+            \label{fig:TODO}
+        \end{figure}
+        \subsubsection*{Limited-time Message}
+        \blind[1]
+        \begin{figure}
+            \centering
+            \tmpframe{\includegraphics[width=0.6\linewidth]{media/TODO-image.pdf}}
+            \caption{One image, $60\,\%$ of line width.  
+              \todo{Napsat pořádný titulek}}
+            \label{fig:TODO}
+        \end{figure}
+    \subsection*{Misdirection}
+    \blind[1]
+        \subsubsection*{Confirm shaming}
+        \blind[1]
+        \begin{figure}
+            \centering
+            \tmpframe{\includegraphics[width=0.6\linewidth]{media/TODO-image.pdf}}
+            \caption{One image, $60\,\%$ of line width.  
+              \todo{Napsat pořádný titulek}}
+            \label{fig:TODO}
+        \end{figure}
+        \subsubsection*{Visual Interference}
+        \blind[1]
+        \begin{figure}
+            \centering
+            \tmpframe{\includegraphics[width=0.6\linewidth]{media/TODO-image.pdf}}
+            \caption{One image, $60\,\%$ of line width.  
+              \todo{Napsat pořádný titulek}}
+            \label{fig:TODO}
+        \end{figure}
+        \subsubsection*{Trick Questions}
+        \blind[1]
+        \begin{figure}
+            \centering
+            \tmpframe{\includegraphics[width=0.6\linewidth]{media/TODO-image.pdf}}
+            \caption{One image, $60\,\%$ of line width.  
+              \todo{Napsat pořádný titulek}}
+            \label{fig:TODO}
+        \end{figure}
+        \subsubsection*{Pressured Selling}
+        \blind[1]
+        \begin{figure}
+            \centering
+            \tmpframe{\includegraphics[width=0.6\linewidth]{media/TODO-image.pdf}}
+            \caption{One image, $60\,\%$ of line width.  
+              \todo{Napsat pořádný titulek}}
+            \label{fig:TODO}
+        \end{figure}
+    \subsection*{Social Proof}
+    \blind[1]
+        \subsubsection*{Activity Message}
+        \blind[1]
+        \begin{figure}
+            \centering
+            \tmpframe{\includegraphics[width=0.6\linewidth]{media/TODO-image.pdf}}
+            \caption{One image, $60\,\%$ of line width.  
+              \todo{Napsat pořádný titulek}}
+            \label{fig:TODO}
+        \end{figure}
+        \subsubsection*{Testimonials}
+        \blind[1]
+        \begin{figure}
+            \centering
+            \tmpframe{\includegraphics[width=0.6\linewidth]{media/TODO-image.pdf}}
+            \caption{One image, $60\,\%$ of line width.  
+              \todo{Napsat pořádný titulek}}
+            \label{fig:TODO}
+        \end{figure}
+    \subsection*{Scarcity}
+    \blind[1]
+        \subsubsection*{Low-stock Message}
+        \blind[1]
+        \begin{figure}
+            \centering
+            \tmpframe{\includegraphics[width=0.6\linewidth]{media/TODO-image.pdf}}
+            \caption{One image, $60\,\%$ of line width.  
+              \todo{Napsat pořádný titulek}}
+            \label{fig:TODO}
+        \end{figure}
+        \subsubsection*{High-demand Message}
+        \blind[1]
+        \begin{figure}
+            \centering
+            \tmpframe{\includegraphics[width=0.6\linewidth]{media/TODO-image.pdf}}
+            \caption{One image, $60\,\%$ of line width.  
+              \todo{Napsat pořádný titulek}}
+            \label{fig:TODO}
+        \end{figure}
+    \subsection*{Obstruction}
+    \blind[1]
+        \subsubsection*{Hard to Cancel}
+        \blind[1]
+        \begin{figure}
+            \centering
+            \tmpframe{\includegraphics[width=0.6\linewidth]{media/TODO-image.pdf}}
+            \caption{One image, $60\,\%$ of line width.  
+              \todo{Napsat pořádný titulek}}
+            \label{fig:TODO}
+        \end{figure}
+    \subsection*{Forced Action}
+    \blind[1]
+        \subsubsection*{Forcel Enrollment}
+        \blind[1]
+        \begin{figure}
+            \centering
+            \tmpframe{\includegraphics[width=0.6\linewidth]{media/TODO-image.pdf}}
+            \caption{One image, $60\,\%$ of line width.  
+              \todo{Napsat pořádný titulek}}
+            \label{fig:TODO}
+        \end{figure}

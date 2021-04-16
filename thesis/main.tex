@@ -6,6 +6,10 @@
 % hidelinks remove colour boxes around hyperlinks
 
 % arara: xelatex: { shell: yes }
+% arara: makeglossaries
+% arara: biber
+% arara: xelatex: { shell: yes }
+% arara: xelatex: { shell: yes }
 \documentclass[thesis=M,english,hidelinks]{template/FITthesisXE}
 
 \bibliography{library.bib}
@@ -14,21 +18,30 @@
 \usepackage{dirtree}
 \usepackage{xevlna}
 \usepackage{lscape}
-
 \usepackage{float}
 \floatstyle{plaintop}
 \restylefloat{table}
 
 \setcounter{tocdepth}{2}
 
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+
+\setlength{\fboxsep}{0.005pt}
+\newcommand{\tmpframe}[1]{\fbox{#1}}
+%\renewcommand{\tmpframe}[1]{#1}
+
 % from https://www.herout.net/blog/2017/03/pomalu-uz-pojdme-psat/
 \usepackage{xcolor}
 \newcommand{\todo}[1]{
     \textcolor{red}{\textbf{[[#1]]}}
 }
-
 \usepackage{blindtext}
-\newcommand{\blind}[1][1]{\textcolor{gray}{\Blindtext[#1][1]}}
+\newcommand{\blind}[1][1]{
+    \textcolor{gray}{
+        \Blindtext[#1][1]
+    }
+}
 
 % from https://github.com/Sanqui/fedorator-thesis
 \newcommand{\importsvg}[1]{
