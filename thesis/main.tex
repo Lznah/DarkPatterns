@@ -31,6 +31,63 @@
 \newcommand{\tmpframe}[1]{\fbox{#1}}
 %\renewcommand{\tmpframe}[1]{#1}
 
+
+\usepackage{ifxetex}
+\ifxetex
+  \usepackage{fontspec}
+%  \setmainfont{Linux Libertine O}
+\fi
+
+\makeatletter
+% fix latex's habit of resetting ' during \write
+\begingroup
+\obeylines\obeyspaces%
+\catcode`\'\active%
+\gdef\@resetactivechars{%
+\def^^M{\@activechar@info{EOL}\space}%
+\def {\@activechar@info{space}\space}}%
+\endgroup
+
+% by egreg at https://tex.stackexchange.com/questions/218939/automatic-apostrophes-for-quotation-marks
+\renewcommand{\cftchapteraftersnumb}{\hskip1sp\relax}
+\let\ORIM@sect\M@sect
+\def\M@sect#1#2#3#4#5#6[#7][#8]#9{%
+  \ORIM@sect{#1}{#2}{#3}{#4}{#5}{#6}[\hskip1sp\relax#7][\hskip1sp\relax#8]{\hskip1sp\relax#9}%
+}
+\catcode`'=\active
+\protected\def'{%
+  \ifvmode
+    `%
+  \else
+    \ifmmode
+      \expandafter\expandafter\expandafter\active@math@prime % for math
+    \else
+      \relax
+      \ifdim\lastskip=1sp
+        `%
+      \else
+        \ifdim\lastskip>0pt
+          `%
+        \else
+          \rq
+        \fi
+      \fi
+    \fi
+  \fi
+}
+% redefine \pr@m@s to look for an active '
+\def\pr@m@s{%
+  \ifx'\@let@token
+    \expandafter\pr@@@s
+  \else
+    \ifx^\@let@token
+      \expandafter\expandafter\expandafter\pr@@@t
+    \else
+      \egroup
+    \fi
+  \fi}
+\makeatother
+
 % from https://www.herout.net/blog/2017/03/pomalu-uz-pojdme-psat/
 \usepackage{xcolor}
 \newcommand{\todo}[1]{
