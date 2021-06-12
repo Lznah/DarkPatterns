@@ -26,6 +26,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
+\usepackage[export]{adjustbox}
 
 \setlength{\fboxsep}{0.005pt}
 \newcommand{\tmpframe}[1]{\fbox{#1}}
@@ -139,6 +140,14 @@
     \end{figure}
 }
 
+\usepackage{amsthm}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
 \makeglossaries
 \input{glossary.tex}
 \glsaddall	% add even unused acronyms
@@ -156,7 +165,7 @@
 
 \input{"chapters/01-state-of-the-art.tex"}
 \input{"chapters/02-dark-patterns.tex"}
-\input{"chapters/03-methods.tex"}
+\input{"chapters/03-machine-learning.tex"}
 \input{"chapters/04-setup.tex"}
 \input{"chapters/05-corpus-creation.tex"}
 \input{"chapters/06-data-collection.tex"}

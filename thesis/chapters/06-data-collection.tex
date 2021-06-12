@@ -1,0 +1,49 @@
+\chapter{Data Collection}
+
+The second step of the analysis is to find the candidates for dark patterns. This thesis, like the paper on which it is based\cite{dark-patterns-at-scale}, focuses only on a textual representation of dark patterns in terms of finding candidates.
+
+A random sample of one hundred records was drawn from the final dataset from the previous chapter. The URLs from this sample were manually visited, and it was found that the linked page was not a web store for six samples, and thirteen were already non-functional URLs. In addition, it was discovered that the more of these non-compliant URLs mainly were located at lower positions in the dataset. This finding is not surprising, as large web stores last longer and thus are higher in the list of stores.
+
+This sample is updates and user later in data colletion, where records with non-compliant URL are replaced with compliant ones for a total of one hundred records. This sample is saved in \textbf{src/crawlers/extract\_links/list-100-shops.csv}
+
+Looking for the candidates is divided in two steps or two crawlers respectively. The goal of the first step is to find product pages on the webshops in the final list from the chapter Corpus Creation. The goal of the second step is to lookup for the textual candidates on the found product pages and saving them into Redis database for the further analysis.
+
+The two crawlers are based on the crawlers implemented for the original research done at Princeton\cite{dark-patterns-at-scale}. The original crawlers are written in Python 2 and now rewritten into Python 3, since the Python 2 is a deprecated version since January 2020. These crawlers are build in Selenium framework and they use Javascript for the navigation in DOM structure of websites
+
+
+
+
+
+
+
+
+
+% Náhodně jsem vybral 100 linků z nichž 6 nebylo eshopem, 13 bylo již nefunkčních. Pravděpodobně čím níže link je, tím menší pravděpodobnost, že bude fungovat. Abych to mohl potvrdit, tak by bylo třeba otestovat více odkazů. Tento list jsem doplnit o nové eshopy, které jsem taktéž ověřil, zda se jedná o eshopy.
+
+% Update:
+% Aktualizoval jsem program tak, aby fungoval v Pythonu3.
+% Zároveň jsem přidal možnost vyhledávat bez predikce. To jsem dělal kvůli tomu, abych mohl vyhledat seznam linků, které poté určím, že jsou produktové stránky. Nicméně systém nefungoval tak jak jsem myslel a procházel zbytečně moc webových stránek, které evidentně nebyly produktové.
+% Program jsem upravil také tak, že jsem přidal různé české varianty a překlady slov a používáných frází, které jsou programem použity na vyhledávání akčních tlačítek jako "Vložit do košíku" a také na filtraci stránek, které zřejmě nejsou produktové (kontakty, o nás, košík atp.)
+
+% Provedl jsem krátný průzkum nejčastěji používaných frází pro vkládání do košíku. Provedl jsem tedy manuální procházení produktových stránek ze seznamu 50 stránek a našel tyto nejčastější fráze:
+% 1) Do košíku (19 z 50)
+% 2) Přidat do košíku (18 z 50)
+% 3) Koupit (7 z 50)
+% 4) Vložit do košíku (6 z 50)
+
+% Z tohoto vyplývá, že jediné použité fráze jsou "do košíku" a "koupit". S vyznamností se neobjevují odchylky ve skloňování atp.
+
+% Přidat pak info o tom, na cem to bezelo, jak rychle atp.
+
+
+
+% Únor 2021
+
+% Získávání kandidátů na Dark Patterns z produktových stránek:
+% - Pro hledání produktových stránek je vytvořený spider, který prochází adresy na doméně a rozpoznává z těchto adres, které adresy jsou produktových stránek. Rozpoznání produktové stránky zajištuje naučený klasifikátor na rozpoznávání produktových stránek.
+
+%     Učení modelu pro klasifikaci produktové stránky:
+%     - Tento klasifikátor je naučený v Jupyter notebooku ProductPageClassifier.ipynb. Adresy, které jsou využity pro učení klasifikátoru jsou získány přes jednoduchý spider z náhodných domén v datasetu. Ručně jsou tyto získané adresy ohodnoceny, zda se jedná o produktovou stránku, či nikoliv. 
+
+%     Procházení produktových stránek:
+%     - 
