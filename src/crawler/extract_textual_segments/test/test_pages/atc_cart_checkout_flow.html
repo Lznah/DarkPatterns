@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+  <style>
+    .button {
+      display: block;
+      width: 115px;
+      height: 45px;
+      background: red;
+      padding: 10px;
+      text-align: center;
+      border-radius: 5px;
+      color: white;
+      font-weight: bold;
+      }
+      .hide {
+        display:none;
+      }
+      </style>
+</head>
+<body>
+<button class="button" id="b1" onclick="myFunction1(); return false;">Add to cart</button>
+<button class="button hide" id="b2" onclick="myFunction2(); return false;">View cart</button>
+<button class="button hide" id="b3" onclick="myFunction3(); return false;">Checkout</button>
+<br/>
+<a>Privacy policy</a>
+<br />
+<a>Contact</a>
+<br />
+<script>
+  var myFunction1 = function () {
+    document.getElementById('b1').classList.add('hide');
+    document.getElementById('b2').classList.remove('hide');
+  };
+
+  var myFunction2 = function () {
+    document.getElementById('b2').classList.add('hide');
+    document.getElementById('b3').classList.remove('hide');
+  };
+
+var myFunction3 = function () {
+  document.getElementById('b3').classList.add('hide');
+};
+</script>
+</body>
+</html>
