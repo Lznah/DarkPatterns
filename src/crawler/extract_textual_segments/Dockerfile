@@ -43,6 +43,9 @@ RUN sudo chown -R user:user /opt/OpenWPM/
 RUN cd /opt/OpenWPM/ \
      && ./install.sh --no-flash
 
+RUN Xvfb :99 &
+ENV DISPLAY=":99"
+
 ADD demo.py /opt/OpenWPM/
 ADD screenshot_crawl.py /opt/OpenWPM/
 ADD segment_pilot_crawl.py /opt/OpenWPM/

@@ -42,7 +42,7 @@ sudo apt-get update
 sudo apt-get install -y firefox htop git python-dev libxml2-dev libxslt-dev libffi-dev libssl-dev build-essential xvfb libboost-python-dev libleveldb-dev libjpeg-dev curl wget
 
 # For some versions of ubuntu, the package libleveldb1v5 isn't available. Use libleveldb1 instead.
-sudo apt-get install -y libleveldb1v5 || sudo apt-get install -y libleveldb1
+sudo apt-get install -y libleveldb1v5 || sudo apt-get install -y libleveldb1d || sudo apt-get install -y libleveldb1
 
 if [ "$flash" = true ]; then
     sudo apt-get install -y adobe-flashplugin
