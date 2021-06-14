@@ -95,7 +95,10 @@ TOTAL_NUM_SITES = len(sites)
 print "TOTAL_NUM_SITES", TOTAL_NUM_SITES
 
 for i in xrange(NUM_BROWSERS):
-    browser_params[i]['headless'] = True
+    # @Petr Hanzl - Running in Headless mode is problematic
+    # original: browser_params[i]['headless'] = True 
+    # changed to: browser_params[i]['headless'] = False 
+    browser_params[i]['headless'] = False 
     if DEBUG:
         browser_params[i]['headless'] = False
     browser_params[i]['js_instrument'] = True
