@@ -19,3 +19,23 @@ Získávání kandidátů na Dark Patterns z produktových stránek:
 
     Procházení produktových stránek:
     - 
+
+
+Původní soubor, který obsahoval eshopy byl upraven takovým způsobem, že největší eshopy byly náhodně umístěné do první stovky (https://www.ecommercebridge.cz/nejvetsi-e-shopy-v-roce-2019/).
+Pro checkout se nakonec vybralo pouze prvních 10000 obchodů. Z původního seznamu product pages bylo vyfiltrované pouze produktové pages z těch 10000 domén, což dělá 58219
+
+Checkout crawler
+    Postavený na OpenWPN - který obsahuje soubor segment_pilot_crawl.py, které bylo potřeba pouze málo upravit. Logika průchodu je ve složce automation/Commands/utils/screen_capture.py. 
+    Pro hledání prvků na stránce se používají stejné JS soubory z extract_links crawleru. Pro tento účel byl upraven regulární výraz, který se používá tlačítka pro pokračování k platbě v košíku. Bylo vybráno prvních 100 domén a na všech bylo zjištěno, jaké text toto tlačítko obsahuje.
+
+    Výsledný regulární výraz je upravený původního regulárního výrazu tak, aby zahrnoval všechny možné varianty (které se vyskytovaly na těchto 100 doménách) textů tlačítka pro pokračování simulovaném procesu nákupu produktu. Mezi nejčastější klíčová slova (včetně skloňování) byla: 
+    1) Pokračovat 51x
+    2) Přejít 6x
+    3) Objednat 51
+    4) Doprava 14x
+    5) Platba 13x
+    6) Pokladna 7x
+    7) Objednávka 25x
+    8) Dále 1x
+
+    Dále bylo třeba zjistit, jaká klíčové slovo se vyskytuje pro zobrazení stránky Košíku. Průchodem 20 stránek, že se na českých eshopech objevují pouze fráze, které všechny obsahují klíčové slovo Košík. Do regulárního výrazu, který vyhledává tlačítko pro přechod košíku (shopping list), bylo pouze přidáno slovo košík.

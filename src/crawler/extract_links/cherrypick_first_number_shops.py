@@ -9,7 +9,6 @@ links = [x.replace("\n","") for x in links]
 
 #get first 10000 rows
 domains = df1[3].head(10000).to_list()
-print(len(links), len(domains))
 
 for i in links:
     if any(i for j in domains if str(j) in i):

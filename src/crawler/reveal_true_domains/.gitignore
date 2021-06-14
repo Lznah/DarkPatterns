@@ -3,3 +3,4 @@ input
 crawling.log
 true_domains.csv
 clean_eshop_list.csv
+clean_eshop_list_manually_edited.csv

@@ -168,7 +168,7 @@ let getPossibleAddToCartButtons = function() {
     // candidates and fts are defined in the format accepted by weightCandidates.
     // Feature values are between 0 and 1 (higher is better), and weights sum to
     // 1, so resulting weighted scores are between 0 and 1.
-    let regex = /(add[- _]?\w*[- _]?to[- _]?(bag|cart|crt|tote|basket|shop|trolley|wheelbarrow))|(buy[- _]?(it)?[- _]?now)|(shippingATCButton)|((vložit |přidat )*do košíku)|(koupit)/i; // variants of "add to cart"
+    let regex = /(add[- _]?\w*[- _]?to[- _]?(bag|cart|crt|tote|basket|shop|trolley|wheelbarrow))|(buy[- _]?(it)?[- _]?now)|(shippingATCButton)|((vlo[zžŽ]it[- _]|p[rřŘ]dat[- _])?do[- _]ko[sšŠ][iíÍ]ku)|(koupit)/i; // variants of "add to cart"
     let candidates = [];
     let fts = {
         colorDists: {values: [], weight: 0.1}, // "distance" between this element's color and the background color
@@ -274,7 +274,7 @@ let getPossibleCartButtons = function() {
     // candidates and fts are defined in the format accepted by weightCandidates.
     // Feature values are between 0 and 1 (higher is better), and weights sum to
     // 1, so resulting weighted scores are between 0 and 1.
-    let regex1 = /bag|cart|checkout|tote|basket|trolley|wheelbarrow|koupit|do košíku/i;
+    let regex1 = /bag|cart|checkout|tote|basket|trolley|wheelbarrow|ko[sšŠ][iíÍ]k/i;
     let regex2 = /(edit|view|shopping|addedto|my|go[- _]?to)[- _]?(\w[- _]?)*(bag|cart|checkout|tote|basket|trolley|wheelbarrow)/i;
     let regex3 = /items[- _]?(\w[- _]?)*(in)?[- _]?(\w[- _]?)*(your)?(bag|cart|checkout|tote|basket|trolley|wheelbarrow)/i;
     let regex4 = /delete|remove|continue|empty|clear/i;
@@ -345,7 +345,7 @@ let getPossibleCheckoutButtons = function() {
     // candidates and fts are defined in the format accepted by weightCandidates.
     // Feature values are between 0 and 1 (higher is better), and weights sum to
     // 1, so resulting weighted scores are between 0 and 1.
-    let regex = /(proceed|continue)[- _]?(to)?[- _]?(check[- _]?out|pay)|check[- _]?out|pay[- _]?securely[- _]?now|make[- _]?order|order[- _]?now|confirm[- _]?purchase|secure[- _]?check[- _]?out/i;
+    let regex = /(proceed|continue)[- _]?(to)?[- _]?(check[- _]?out|pay)|check[- _]?out|pay[- _]?securely[- _]?now|make[- _]?order|order[- _]?now|confirm[- _]?purchase|secure[- _]?check[- _]?out|pokra[cčČ]ovat|p[rřŘ]ej[iíÍ]t|k[- _]pokladn[eěě]|objednat|d[aáÁ]le|doprav[yau]([- _]a[- _]platb[yau])?|objedn[aáÁ]v(ku|ce)?/i;
     let candidates = [];
     let fts = {
         colorDists: {values: [], weight: 0.2}, // "distance" between this element's color and the background color
