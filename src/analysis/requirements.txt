@@ -1,11 +1,7 @@
 numpy
 matplotlib
-sqlite3
 pandas
-urlparse
 tqdm
-mpl_toolkits
 nltk
-unicodedata
 sklearn
 scipy
