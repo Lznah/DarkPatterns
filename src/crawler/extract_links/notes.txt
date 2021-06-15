@@ -14,3 +14,14 @@ Provedl jsem krátný průzkum nejčastěji používaných frází pro vkládán
 Z tohoto vyplývá, že jediné použité fráze jsou "do košíku" a "koupit". S vyznamností se neobjevují odchylky ve skloňování atp.
 
 Přidat pak info o tom, na cem to bezelo, jak rychle atp.
+
+Algoritmus běžen na školním serveru, kde paralelně pracovalo 32 workerů:
+6.4. od 23:27
+do 9.4. 6:47
+
+Celkem se provedlo navštívit domovskou stránku: 43411 z původního seznamu.
+Přičemž bylo navštíveno 1 944 980 webových stránek
+Z čehož 159 768 bylo identifikováno jako produktových.
+
+Systém, na kterém bylo měření provedeno - Ubuntu 20.04 LTS
+

@@ -22,7 +22,7 @@ Získávání kandidátů na Dark Patterns z produktových stránek:
 
 
 Původní soubor, který obsahoval eshopy byl upraven takovým způsobem, že největší eshopy byly náhodně umístěné do první stovky (https://www.ecommercebridge.cz/nejvetsi-e-shopy-v-roce-2019/).
-Pro checkout se nakonec vybralo pouze prvních 10000 obchodů. Z původního seznamu product pages bylo vyfiltrované pouze produktové pages z těch 10000 domén, což dělá 58219
+Pro checkout se nakonec vybralo pouze prvních 10000 obchodů. Z původního seznamu product pages bylo vyfiltrované pouze produktové pages z těch 10000 domén, což dělá 43413
 
 Checkout crawler
     Postavený na OpenWPN - který obsahuje soubor segment_pilot_crawl.py, které bylo potřeba pouze málo upravit. Logika průchodu je ve složce automation/Commands/utils/screen_capture.py. 

@@ -6,3 +6,4 @@ nohup ./keep_xvfb_alive.sh > nohup.log 2>&1 &
 echo $! > save_pid.txt
 
 DISPLAY=:99 nohup python segment_pilot_crawl.py $1 &
+echo $! >> save_pid.txt
