@@ -4,6 +4,6 @@
 
 ./keep_xvfb_alive.sh &
 
-DISPLAY=:99 
+export DISPLAY=:99 
 
 python segment_pilot_crawl.py $1
