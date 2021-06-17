@@ -14,3 +14,8 @@ urlparse
 sklearn
 scikit-learn==0.23.1
 unidecode
+matplotlib
+tqdm
+stop-words
+spacy_udpipe
+hdbscan
