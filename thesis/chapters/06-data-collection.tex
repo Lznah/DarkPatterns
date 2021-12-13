@@ -4,46 +4,118 @@ The second step of the analysis is to find the candidates for dark patterns. Thi
 
 A random sample of one hundred records was drawn from the final dataset from the previous chapter. The URLs from this sample were manually visited, and it was found that the linked page was not a web store for six samples, and thirteen were already non-functional URLs. In addition, it was discovered that the more of these non-compliant URLs mainly were located at lower positions in the dataset. This finding is not surprising, as large web stores last longer and thus are higher in the list of stores.
 
-This sample is updates and user later in data colletion, where records with non-compliant URL are replaced with compliant ones for a total of one hundred records. This sample is saved in \textbf{src/crawlers/extract\_links/list-100-shops.csv}
+This sample is updated and used later in the data colletion, where records with non-compliant URL are replaced with compliant ones for a total of one hundred records. This sample is saved in \textbf{src/crawlers/extract\_links/list-100-shops.csv}
 
-Looking for the candidates is divided in two steps or two crawlers respectively. The goal of the first step is to find product pages on the webshops in the final list from the chapter Corpus Creation. The goal of the second step is to lookup for the textual candidates on the found product pages and saving them into Redis database for the further analysis.
+Looking for the candidates is divided in two steps or two crawlers respectively. The goal of the first step is to find product pages on the webshops in the final list from the chapter Corpus Creation. The goal of the second step is to lookup for the textual candidates on the found product pages and saving them into SQLite database for the further analysis.
 
-The two crawlers are based on the crawlers implemented for the original research done at Princeton\cite{dark-patterns-at-scale}. The original crawlers are written in Python 2 and now rewritten into Python 3, since the Python 2 is a deprecated version since January 2020. These crawlers are build in Selenium framework and they use Javascript for the navigation in DOM structure of websites
+These two crawlers are taken from the original research done at Princeton\cite{dark-patterns-at-scale}, but modified for the purposes of this thesis (i.e. crawling of Czech webshops).
+
+Websites can be client-site rendered, which means that it requires a client (web browser) to render the loaded Javascript scripts. Because of that, the proposed crawlers are based on Selenium. Navigation on the website is done with Javascript.  Both crawlers are originally written in Python 2, which is a deprecated version since January 2020. Only the \emph{Product page crawler} is successfully rewritten to Python 3. The \emph{Checkout crawler} is not because of the complex incompatibilities of libraries and technologies (Selenium, Geckodriver, Firefox) used by the crawler. However, this crawler and its installation had to be modified to work since some used libraries already stopped supporting Python 2.
+
+\section{Discovering Product URLs}
+    Discovering product URLs is a complex task for three main reasons. Firstly, a classification of whether a page is a product page or not is complex by itself because product pages look different for different webshops, and there is no unified definition of how a web page should look like. Also, the HTML source code of the product pages varies a lot.
+    Secondly, a single website contains many links, and only a tiny portion of them can be actual product pages. Crawling and classifying every single page on the website would lead to much unnecessary work.
+    Lastly, the crawler must work in parallel on multiple processors to speed up processing the large dataset of webshops obtained in the Corpus Creation step.
+
+    The original authors built a crawler that contains a classifier capable of distinguishing product URLs from non-product URLs, and the crawler proposed in this thesis is hugely based on it.
+
+    However, the original crawler is built to discover product pages on English webshops. It had to be modified to work for Czech webshops. This includes modifying the classifier to detect the product page URL and modifying the product page detection.
+
+    \subsection{Product Page Detection}
+    \label{section:product-page-detection}
+
+    A page is classified as a product page if its HTML code contains only one "Add to Cart" button. The detection of such a button is more complicated than it may seem. The researchers implemented a complex scoring functions for the detection of such button. This includes that the candidates for the "Add to Cart" button are scored not only by the presence of the possible "Add to Cart" phrase (defined in a form of a regular expression) in the inner text or in its attributes but also by the button's size and a contrast ratio of button's colour to the background colour of a body HTML element. To add the support for the Czech language, a sample of 50 pages was analysed for the use of "Add to Cart" phrases (see \ref{table:add-to-cart-phrases}). This analysis led to a modification of the used regular expression.
+
+    \begin{table}[h!]
+        \centering
+        \begin{tabular}{l | c} 
+        \textbf{Phrase} & \textbf{\#} \\ [0.5ex] 
+        \hline
+        Do košíku & 19 \\ \hline
+        Přidat do košíku & 18 \\ \hline
+        Koupit & 7 \\ \hline
+        Vložit do košíku & 6 \\ [1ex] 
+        \end{tabular}
+        \caption{"Add to Cart" phrases in the Czech language found on a random sample of 50 Czech webshops.}
+        \label{table:add-to-cart-phrases}
+    \end{table}
+
+    \subsection{Random Crawl}
+
+    The original classifier distinguishes product page URLs from non-product page URLs that are from English websites. The classifier was trained on a dataset of Czech URLs. This dataset was obtained by running the crawler on a random sample of 100 webshops (mentioned at the beginning of this chapter). The crawler was run to select random URLs to visit while spidering the website instead of predicting which URL was more likely to be a product page. In this random crawl, the crawler's detection marked 398 pages to be product pages. These pages were manually examined, and 308 were actual product pages (77\% accuracy for a random crawl). Additional URLs (not marked as product pages) were iteratively added to the dataset and manually examined. Multiple iterations of additions and examination led to a balanced dataset of 377 product pages and 334 non-product pages.
+
+    \subsection{Product page URL Classifier}
+
+    The classifier is trained in a separate Jupyter Notebook (\textbf{src/classifiers/SGD-Classifier-Online.ipynb}) and it is a modified version of the notebook, published by the researchers. This notebook differs from the original notebook in used feature variables, where it adds Czech equivalents to boolean features, representing a specific word in the URL, such as "category" and "product". The czech equivalents are "kategorie" and "produkt". Czech webshops often use a word "detail" in their URL, which was added as another boolean feature. The last added feature represents whether or not the URL contains product ID. The rest of original features are a length of URL, a number of hyphens and slashes and a longest number in the URL. 
+
+    The dataset was split where 90 \% records are used for training and 10 \% for five-fold cross validation. Tested classifiers were sklearn's Logistic Regression using L-BFGS solver\cite{logistic-sklearn} and Logistic Regression with Stochastic Gradient Descent learning \cite{sgd-sklearn}. Both classifiers had very similar results in average, but Stochastic Gradient Descent with 78 \% accuracy was chosen as a classifier for the crawler, because of its higher validation score (0.83 to 0.76).
+
+    However, none of the added feature variables significantly lead to an increased accuracy compared to the original features.
+
+    \subsection{Guided Crawl}
+
+    Once the classifier was trained, the second crawl guided by this classifier was done on the full dataset of \textbf{46 023} webshops' URLs. The classifier helps the crawler to rank URLs on the page by likelihood of being product page URLs. The researchers set certain limits for the crawler from their observations, followed in this part as well. The crawler visits 100 pages or spends 15 minutes at maximum on a single website. It does not visit the same page more than two times. The crawling of a single website can be skipped, if the crawler already found five product pages.
+
+    A total number of 32 workers finished the crawling in 2 days, 7 hours, 20 minutes. During the crawling, \textbf{1 944 980} pages were visited from which \textbf{159 768} were identified as product page URLs on \textbf{43 411} different webshops. The remaining \textbf{2 612} pages were no longer accessible, redirected to a different domain or identified as not being in the Czech language.
+
+\section{Discovering Textual Segments in simulated product purchase flows}
+    Since the guided crawl took a significant amount of time to complete, it was assumed that the crawler simulating purchase flow would take even more time to complete due to its higher complexity. At the same time, during the manual browsing in the previous steps, it was found that a part of the domain names are duplicate entries for the same e-shop or lead to already non-functional e-shops. It can also be assumed that the smaller businesses do not have the funding for their own e-commerce software solution. Because of this, vast majority of them use third-party solutions. These third-party solutions exhibit the same characteristics and it cannot be expected from them to contain unique instances of dark patterns across multiple websites. For these reasons, only the first \textbf{10 000} domains were selected from the list of \textbf{43 411} e-shops for the following crawling step. 10 000 different domains is also comparable to the number of domains used by the Princeton researchers - i.e. 11 286 different domains. The filtering the list of given product URLs by domain name returned \textbf{33 782} product URLs.
+    
+    The crawler used in this part of the study is almost identical to the crawler (in their study referred as Checkout crawler) published by the Princeton researchers.
+
+    The crawler performs two concurrent tasks. It is \nameref{section:flow-simulation} and \nameref{section:text-extraction}.
+
+    \subsection{Product Purchase Flow Simulation}
+    \label{section:flow-simulation}
+    By analyzing the code for the simulation, it was found that the crawling logic can remain the same because it is independent of the language used. Nevertheless, the original crawler does not support Czech language. This is a crutial functionality in searching proper buttons for interactions with web pages. The modified crawler adds the Czech language support.
+    It contains modified regular expressions that are used by scoring fuctions. The scoring functions are very similar to the one already described in Section \ref{section:product-page-detection}. These functions allow the crawler to find the buttons on the website. Because of that, the crawler can run independently on many websites with different designs. 
+    The crawler is able to handle edge cases to simulate user interaction, such as dismissing pop-up dialogs and indentifying interface for selecting product attributes. Also, the crawler takes a screenshot every second and saves only the screenshots that differ in base64 form \cite{base64} from a previously taken screenshot. The whole communication, every interaction is saved in HTTP Archive (HAR), but is omitted from the analysis done in this thesis.
+    
+    The product purchase flow consists of four steps:
+
+    \subsubsection*{Adding Product to Cart}
+        Firstly, the crawler searches interface for selecting product variants and selects one of them. This is not a very complex algorithm, which search for every select HTML element on the page and the crawler tries to set it to a random value. This was not modified from the original crawler, because it is not dependent on used language. After that, the crawler searches for "Add to Cart" button. The regular expression defining the possible values, was modified to support Czech languages, which is made and described earlier in the section \ref{section:product-page-detection}. Once the button is found, the crawler clicks it to add the product into the cart.
+
+    \subsubsection*{Searching View Cart}
+        Secondly, the crawler searches for "View Cart" button in the similar way as it searches for "Add to Cart" button. The regular expression defining the possible phrases was also modified to support Czech equivalents of "View Cart" and its synonyms. Results from the analysis of one hundred websites has shown, that one hundred percent Czech e-shops uses a word "košík" (or its declanation).
 
 
+    \subsubsection*{Searching Checkout}
+        Thirdly, once the product is added to the cart, the crawler locates a button that leads to the final Checkout page.
 
+        On a random sample of one hundred product URLs, the following keywords from phrases used to proceed to the Checkout page were found:
 
+        \begin{table}[h!]
+            \centering
+            \begin{tabular}{l | c} 
+            \textbf{Phrase} & \textbf{\#} \\ [0.5ex] 
+            \hline
+            Pokračovat & 51 \\ \hline
+            Objednávka & 25 \\ \hline
+            Doprava & 14 \\ \hline
+            Platba & 13 \\ \hline
+            Pokladna & 7 \\ \hline
+            Přejít & 6 \\ \hline
+            Objednat & 5 \\ \hline
+            Dále & 1 \\ [1ex] 
+            \end{tabular}
+            \caption{Most common Czech words inside buttons that proceed to the Checkout page. Occurrences were found on a random sample of one hundred Czech webshops.}
+            \label{table:add-to-cart-phrases}
+        \end{table}
 
+    \subsubsection*{Waiting on Checkout Page}
+        The crawler does no interaction on the checkout page. It only waits 10 seconds, so the page segmentation defined below has enough time to finish.
 
+    \subsection{Text Extraction using Page Segmentation}
+    \label{section:text-extraction}
+    Since the page segmentation is language-independent, it is used in its original form, shared by the researchers. 
+    
+    While crawling the website, the crawler extracts page segments of every visited page and from every change that can occur during the crawl. Researchers describe page segments as building blocks of a website, representing smaller sections. These segments shape a dataset later used in the data analysis and clustering. Researchers define\cite{dark-patterns-at-scale} a single page segment as a visible HTML element that does not contain block-level element\cite{block-element} and contains at least one text element\cite{text-element}. 
+    
+    The crawler waits for the web page to load completely, before the page segmentation starts. Even after the complete loading of the web page, the browser can render additional content into the DOM. These changes may be triggered by the user's interaction with the web page, or may be pop-up windows, for example. To capture all these changes, researchers integrated Mutation Summary \cite{mutation-summary} library into the crawler. This library observes changes in the DOM and emits events that retrive all the changes in a form of an array, which is again processed by the page segmentation.
 
+    The researchers also share a pseudocode of an algorithm of the page segmentation \ref{appendix:pseudocode} and an illustration of the algorithm's output\ref{appendix:page-segmentation-illustration}. Both are included in the appendix of this thesis.
 
+    Each segment is stored as one record in SQLite database, where each record contains segment's HTML Element type, innerText, dimensions, coordinates on the page and styles (CSS color and background-color).
 
-% Náhodně jsem vybral 100 linků z nichž 6 nebylo eshopem, 13 bylo již nefunkčních. Pravděpodobně čím níže link je, tím menší pravděpodobnost, že bude fungovat. Abych to mohl potvrdit, tak by bylo třeba otestovat více odkazů. Tento list jsem doplnit o nové eshopy, které jsem taktéž ověřil, zda se jedná o eshopy.
-
-% Update:
-% Aktualizoval jsem program tak, aby fungoval v Pythonu3.
-% Zároveň jsem přidal možnost vyhledávat bez predikce. To jsem dělal kvůli tomu, abych mohl vyhledat seznam linků, které poté určím, že jsou produktové stránky. Nicméně systém nefungoval tak jak jsem myslel a procházel zbytečně moc webových stránek, které evidentně nebyly produktové.
-% Program jsem upravil také tak, že jsem přidal různé české varianty a překlady slov a používáných frází, které jsou programem použity na vyhledávání akčních tlačítek jako "Vložit do košíku" a také na filtraci stránek, které zřejmě nejsou produktové (kontakty, o nás, košík atp.)
-
-% Provedl jsem krátný průzkum nejčastěji používaných frází pro vkládání do košíku. Provedl jsem tedy manuální procházení produktových stránek ze seznamu 50 stránek a našel tyto nejčastější fráze:
-% 1) Do košíku (19 z 50)
-% 2) Přidat do košíku (18 z 50)
-% 3) Koupit (7 z 50)
-% 4) Vložit do košíku (6 z 50)
-
-% Z tohoto vyplývá, že jediné použité fráze jsou "do košíku" a "koupit". S vyznamností se neobjevují odchylky ve skloňování atp.
-
-% Přidat pak info o tom, na cem to bezelo, jak rychle atp.
-
-
-
-% Únor 2021
-
-% Získávání kandidátů na Dark Patterns z produktových stránek:
-% - Pro hledání produktových stránek je vytvořený spider, který prochází adresy na doméně a rozpoznává z těchto adres, které adresy jsou produktových stránek. Rozpoznání produktové stránky zajištuje naučený klasifikátor na rozpoznávání produktových stránek.
-
-%     Učení modelu pro klasifikaci produktové stránky:
-%     - Tento klasifikátor je naučený v Jupyter notebooku ProductPageClassifier.ipynb. Adresy, které jsou využity pro učení klasifikátoru jsou získány přes jednoduchý spider z náhodných domén v datasetu. Ručně jsou tyto získané adresy ohodnoceny, zda se jedná o produktovou stránku, či nikoliv. 
-
-%     Procházení produktových stránek:
-%     - 
+    From the crawling of the 10 000 Czech webshops, the crawler visited \textbf{33 782} web pages, where it captured \textbf{~9,5M} segments. This number of captures segments corresponds to the number of segments the Princeton researchers extracted from the same number of web pages. They extracted around 13M segments from 53K web pages.

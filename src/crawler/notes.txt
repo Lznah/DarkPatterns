@@ -29,9 +29,9 @@ Checkout crawler
     Pro hledání prvků na stránce se používají stejné JS soubory z extract_links crawleru. Pro tento účel byl upraven regulární výraz, který se používá tlačítka pro pokračování k platbě v košíku. Bylo vybráno prvních 100 domén a na všech bylo zjištěno, jaké text toto tlačítko obsahuje.
 
     Výsledný regulární výraz je upravený původního regulárního výrazu tak, aby zahrnoval všechny možné varianty (které se vyskytovaly na těchto 100 doménách) textů tlačítka pro pokračování simulovaném procesu nákupu produktu. Mezi nejčastější klíčová slova (včetně skloňování) byla: 
-    1) Pokračovat 51x
+    1) Pokračovat 50x
     2) Přejít 6x
-    3) Objednat 51
+    3) Objednat 5x
     4) Doprava 14x
     5) Platba 13x
     6) Pokladna 7x

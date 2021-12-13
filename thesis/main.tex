@@ -19,6 +19,9 @@
 \usepackage{xevlna}
 \usepackage{lscape}
 \usepackage{float}
+\usepackage{nameref}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 \floatstyle{plaintop}
 \restylefloat{table}
 
@@ -163,27 +166,30 @@
     \input{"chapters/00-introduction.tex"}
 \end{introduction}
 
-\input{"chapters/01-state-of-the-art.tex"}
-\input{"chapters/02-dark-patterns.tex"}
-\input{"chapters/03-machine-learning.tex"}
-\input{"chapters/04-setup.tex"}
-\input{"chapters/05-corpus-creation.tex"}
+% \input{"chapters/01-state-of-the-art.tex"}
+% \input{"chapters/02-dark-patterns.tex"}
+% \input{"chapters/03-machine-learning.tex"}
+% \input{"chapters/04-setup.tex"}
+% \input{"chapters/05-corpus-creation.tex"}
 \input{"chapters/06-data-collection.tex"}
-\input{"chapters/07-data-analysis.tex"}
-\input{"chapters/08-results.tex"}
+% \input{"chapters/07-data-analysis.tex"}
+% \input{"chapters/08-results.tex"}
 
-\begin{conclusion}
-    \input{"chapters/9x-conclusion.tex"}
-\end{conclusion}
+% \begin{conclusion}
+%     \input{"chapters/9x-conclusion.tex"}
+% \end{conclusion}
 
-\printbibliography[]
+% \printbibliography[]
 
+
+% \appendix
+
+% \chapter{List of Acronyms}
+% \printglossary[type=\acronymtype,style=acronyms]
+
+% \input{medium.tex}
 
 \appendix
-
-\chapter{List of Acronyms}
-\printglossary[type=\acronymtype,style=acronyms]
-
-\input{medium.tex}
+\input{appendix/page-segmentation.tex}
 
 \end{document}
