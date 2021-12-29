@@ -4,21 +4,16 @@ Typically, when the user reads a website or uses an app, he does not read all th
 
 Research into tricky user interface designs and deceptive practices has surprisingly much history, but it was neglected for many years. In 1999, Hanson and Kysar were the first who examined how companies abuse customers' cognitive limitations and profit from them. The rapid growth of the Internet and e-commerce increased more serious discussions and analyses of this topic. The term Dark Pattern itself was introduced by user interface expert Harry Brignull in 2010 to create a library of different types of dark patterns and to shame websites using them\cite{dark-patterns-brignull-about-us}. 
 
-% https://www.darkpatterns.org/about-us
-
 In March 2021, the state of California added new regulation that now bans dark patterns that prevent users from opting out of the sale of their personal data\cite{california-bans-dark-patterns}. Therefore, the topic of dark patterns becomes more and more relevant.
-
-% https://www.theverge.com/2021/3/16/22333506/california-bans-dark-patterns-opt-out-selling-data
 
 In 2019, a group of scientist from Princeton University introduced an automated approach that enables experts to identify dark patterns used on websites at scale\cite{dark-patterns-at-scale}. 
 
-% https://arxiv.org/pdf/1907.07032.pdf
-
-This thesis's primary goal is to build on top of their research to analyse the prevalence of dark patterns on Czech webshops, also described in the Princeton study\cite{dark-patterns-at-scale}. This thesis focuses on product pages and product purchase flow only because these are the most promising pages, where all the buying happens. Several subgoals need to be done to fulfil the primary goal:
+This thesis's primary goal is to build on top of their research to analyse the prevalence of dark patterns on Czech webshops, also described in the Princeton study\cite{dark-patterns-at-scale}. Their work and also this thesis focuses on product pages and product purchase flow only because these are the most promising pages, where all the buying happens. Several subgoals need to be done to fulfil the primary goal:
 \begin{itemize}
-    \item Build an automated mechanism of gathering data from numerous Czech webshops at scale.
-    \item These extracted data needs to be analysed in order to train a model that can detect dark patterns.
+    \item Create a dataset of Czech web shops.
+    \item Adapt the published source codes from the prior research for Czech language.
+    \item Analyze gathered data.
     \item Evaluate and describe results.
 \end{itemize}
 
-The thesis does not aim to study the prevalence of deceptive dark patterns that display transients values over time.
+This thesis does not aim to create a model capable of automated detection of dark patterns. Also, this thesis does not aim to study the prevalence of deceptive dark patterns that display transients values over time.

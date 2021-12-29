@@ -10,6 +10,7 @@
 % arara: biber
 % arara: xelatex: { shell: yes }
 % arara: xelatex: { shell: yes }
+
 \documentclass[thesis=M,english,hidelinks]{template/FITthesisXE}
 
 \bibliography{library.bib}
@@ -22,6 +23,9 @@
 \usepackage{nameref}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{pgfplots}
+\usepackage{pifont}
+\usepackage{xcolor}
 \floatstyle{plaintop}
 \restylefloat{table}
 
@@ -104,6 +108,9 @@
     }
 }
 
+\newcommand{\cmark}{\textcolor{green!80!black}{\ding{51}}}
+\newcommand{\xmark}{\textcolor{red}{\ding{55}}}
+
 % from https://github.com/Sanqui/fedorator-thesis
 \newcommand{\importsvg}[1]{
     \def\svgwidth{\columnwidth}
@@ -166,30 +173,30 @@
     \input{"chapters/00-introduction.tex"}
 \end{introduction}
 
-% \input{"chapters/01-state-of-the-art.tex"}
-% \input{"chapters/02-dark-patterns.tex"}
-% \input{"chapters/03-machine-learning.tex"}
+\input{"chapters/01-state-of-the-art.tex"}
+\input{"chapters/02-dark-patterns.tex"}
+\input{"chapters/03-machine-learning.tex"}
 % \input{"chapters/04-setup.tex"}
-% \input{"chapters/05-corpus-creation.tex"}
+\input{"chapters/05-corpus-creation.tex"}
 \input{"chapters/06-data-collection.tex"}
-% \input{"chapters/07-data-analysis.tex"}
-% \input{"chapters/08-results.tex"}
+\input{"chapters/07-data-analysis.tex"}
+\input{"chapters/08-evaluation.tex"}
 
-% \begin{conclusion}
-%     \input{"chapters/9x-conclusion.tex"}
-% \end{conclusion}
+\begin{conclusion}
+    \input{"chapters/9x-conclusion.tex"}
+\end{conclusion}
 
-% \printbibliography[]
+\printbibliography[]
 
-
-% \appendix
-
-% \chapter{List of Acronyms}
-% \printglossary[type=\acronymtype,style=acronyms]
-
-% \input{medium.tex}
 
 \appendix
-\input{appendix/page-segmentation.tex}
+
+\chapter{List of Acronyms}
+\printglossary[type=\acronymtype,style=acronyms]
+
+\input{medium.tex}
+
+% \appendix
+% \input{appendix/page-segmentation.tex}
 
 \end{document}

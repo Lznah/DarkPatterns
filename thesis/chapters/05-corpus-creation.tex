@@ -23,7 +23,7 @@ Heureka provides a list of all registered webshops on their website. This list i
 
 In February 2021, the total number of pages was \textbf{3735}. This number of pages was manually found by changing the query parameters from the URL until the page stopped returning error 404. At the same time, these 3735 pages contained 74698 webshops in total. 
 
-We implemented a web crawler to extract webshops' links and names from these pages. The crawler is written in Python 3, using Selenium framework with Chrome browser in headless mode. Also, the crawler is parallelised to speed up this task using Celery asynchronous task queue. Source codes are inside \textbf{src\string/crawler\string/extract\_shops} folder. 
+I implemented a web crawler to extract webshops' links and names from these pages. The crawler is written in Python 3, using Selenium framework with Chrome browser in headless mode. Also, the crawler is parallelised to speed up this task using Celery asynchronous task queue. Source codes are inside \textbf{src\string/crawler\string/extract\_shops} folder. 
 
 Some of the crawled pages were not successfully downloaded because the Chrome browser occasionally failed to start or the webserver returned an empty page. The crawler was still able to successfully download \textbf{3 695 pages} containing \textbf{73 898 webshops} in total after scraping the HTML into 3695 CSV files.
 
@@ -37,7 +37,7 @@ The two other steps of the Corpus Creation deal with these two problems.
 
 As mentioned above, Heureka does not provide direct URLs to webshops in its listings. The provided links only redirect to the true URLs of webshops, and because of that, we implemented another crawler that follows these redirections and returns the true URLs. This crawler is also written in Python 3. This time, the task is only to retrieve the true URLs. Hence, Request library is used instead of Selenium, which is too complex for such a simple task. It remains parallelized using Celery. Sources codes are in \textbf{src\string/crawler\string/reveal\_true\_domains} folder.
 
-This crawler adds an additional column to the dataset given from the previous crawler, which contains the true URL. If an exception occurred during the execution of the single task, its message is written there instead. If the webpage returned a different status code than 200, the status code is also written there instead. The importance of this data about errors and exceptions are helpful in the validation of the whole task. Whether the whole task is successful or it returns too many errors and exceptions.
+This crawler adds an additional column to the dataset given from the previous crawler, which contains the true URL. If an exception occurred during the execution of the single task, its message is written there instead. If the web page returned a different status code than 200, the status code is also written there instead. The importance of this data about errors and exceptions are helpful in the validation of the whole task. Whether the whole task is successful or it returns too many errors and exceptions.
 
 \section{Cleansing of dataset}
 
@@ -45,7 +45,7 @@ The given data from the previous crawler is further cleansed in a Jupyter notebo
 
 In the first step, the dataset is split into two data frames of errors and true URLs. Dataset of errors contains 27 037 rows, and 23 238 of them are results of connection being refused after redirection. The first exception might be that Heureka implemented mechanisms to prevent the crawling of the redirections. This claim was refuted by \textbf{manually going through 100 random} links. None of these links redirects to an active webshop. The next most frequent errors were 404 errors with 1953 occurrences, 403 errors with 750 occurrences and 503 errors with 504 occurrences. These are errors that indicate that the web store web page is no longer active. The other errors had an incidence of fewer than 200 occurrences.
 
-The dataset of true URLs is further cleansed by filtering out other identified inactive webshops that were not identified in the error/rejection filtering. Firstly, such webshops URLs have a high frequency in the dataset because the webshops' URLs are often redirected to the webshops' hosting service website after deactivation of the webshop. For example, many Czech webshops use Shoptet service, which allows users to rent a ready-to-use webshop solution for a monthly payment. After the users stop paying this fee, their webshop is inactivated (or deleted), making the original webshop be redirected to Shoptet's custom webpage informing visitors about the inactivation of the particular webshop. Secondly, many URLs of inactive webshops contain status code in the URL without sending the actual status code in an HTTP response. Lastly, some domain names were inactive or resold and redirected to a new website (surprisingly redirected to porn websites in most of the cases). All this manual work led to creating a list of such URLs and was used to filter them out of the dataset. This shrinked the dataset from \textbf{46 861} to \textbf{46 023} rows, removing another \textbf{838} rows.
+The dataset of true URLs is further cleansed by filtering out other identified inactive webshops that were not identified in the error/rejection filtering. Firstly, such webshops URLs have a high frequency in the dataset because the webshops' URLs are often redirected to the webshops' hosting service website after deactivation of the webshop. For example, many Czech webshops use Shoptet service, which allows users to rent a ready-to-use webshop solution for a monthly payment. After the users stop paying this fee, their webshop is inactivated (or deleted), making the original webshop be redirected to Shoptet's custom web page informing visitors about the inactivation of the particular webshop. Secondly, many URLs of inactive webshops contain status codes in the URL without sending the actual status code in an HTTP response. Lastly, some domain names were inactive or resold and redirected to a new website (surprisingly redirected to porn websites in most of the cases). All this manual work led to creating a list of such URLs and filtering them out of the dataset. This shrinked the dataset from \textbf{46 861} to \textbf{46 023} rows, removing another \textbf{838} rows.
 
 The last step was to remove URI parts from the URLs and drop duplicate entries, which shrank the dataset to final \textbf{43 413} unique links to webshops, removing another \textbf{2 610} rows.
 
@@ -56,7 +56,7 @@ The final list of Corpus Creation stage can be found \textbf{clean\_eshop\_list.
 \begin{table}[h!]
     \centering
     \begin{tabular}{ c | c | c } 
-        \textbf{Extracted URLs} & \textbf{Accesible URLs} & \textbf{Not-accessible URLs} \\
+        \textbf{Extracted URLs} & \textbf{Accesible URLs} & \textbf{Non-accessible URLs} \\ \hline
       73 898 & 27 037 & 27 037 \\
      \textbf{Dirty URLs} & \textbf{Duplicate URLs} & \textbf{ Clean URLs} \\ \hline
       838 & 2 610 & \textbf{43 413}

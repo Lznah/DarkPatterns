@@ -55,8 +55,6 @@ It is also important to mention that the output of a machine learning algorithm,
 
 \subsection{Supervised learning}
 
-% přidat odkaz na kapitolu logistic regression
-
 In supervised learning, the program is given a dataset that already contains not only what are the input variables, but also what the correct output should look like. Most times, this dataset is created by a person who knows what the correct output should be - a supervisor. Therefore, this type of learning is called as supervised learning.\cite{all-models}
 
 Supervised learning problems are further categorized into two subcategories, classification and regression problems, depending on what the output is\cite{coursera-ml}. If the output is to be a numerical value, such as the price of a property, it is a regression problem. However, if the output is to be whether or not there is a cat in the picture, then it is classification problem. Also, it can be said that algorithms for regression problems are used to predict continues values and algorithms for classification problems are used to predict (or classify) discrete values.
@@ -86,8 +84,6 @@ Unsupervised learning is further divided into two subcategories based on how the
 
 \subsubsection{Clustering}
 
-% přidat odkaz na kapitolu HDBSCAN
-
 The goal of clustering is to divide data that are similar into groups\cite{ml-types2}. The number of these groups can be an exact number defined by an expert for some algorithms (K-means\cite{k-means}), but there are also algorithms that find the number of groups by themselves (OPTICS\cite{optics}, DBSCAN\cite{dbscan}.
 
 An example of using clustering methods is recommender systems that recommend the same things to users with similar characteristics to other users. Other examples include anomaly detection, statistical data analysis, and social network analysis\cite{clustering-applications}.
@@ -106,8 +102,6 @@ Clustering methods are broadly divided into \textbf{hard clustering} and \textbf
 It is not important for this thesis to describe all these types of clustering methods, except the HDBSCAN method (Hierarchical Density-Based Spatial Clustering of Applications with Noise) used in this thesis's practical part. HDBSCAN is a combination of Density-Based Clustering and Hierarchical Clustering. A detailed description and information about the HDBSCAN method are given in Section XY.
 
 \subsubsection{Dimensional reduction}
-
-% TODO - přidat odkaz na kapitolu PCA
 
 As mentioned earlier, the main task of dimension reduction algorithms is to transform data from a higher dimensional space to a lower-dimensional space\cite{ml-types2}. This is often done during the preprocessing phase of the data, which can be sparse and contain much redundancy. Dimensional reduction algorithms select the interesting parts of the data in the dataset. This also avoids the problem of the curse of dimensionality\cite{bellman1957dynamic}.
 

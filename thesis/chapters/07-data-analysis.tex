@@ -1,0 +1,63 @@
+\chapter{Data Analysis}
+    Analyzing millions of segments is not optimal for an expert analyst. The work of this expert is expensive and time-consuming. Therefore, methods that reduce the number of segments and thus the expert's work need to be used to make the analysis manageable for the expert. The output is a list of text segments that contain dark patterns.
+
+    The methods used in this section follow the work of the Princeton researchers. At the same time, the results of this work are again compared with the results of their work.
+
+    The data analysis can be divided into four steps:
+
+    \section{Preprocessing}
+        The SQLite database, which has 9.5 million segments, contains many duplicate segments across multiple websites. For example, "Add to Cart" buttons, various unified headings such as "Product Description", and others. Since only the text of the segments is analyzed, only those segments that have unique text across a single domain are selected from the dataset for further processing. Also, all the numbers in the dataset have been replaced with placeholders, thus reducing the dataset even more. 
+
+        The output of this preprocessing is a reduction in the number of segments from ~9.5M segments to ~805K. Thus, this approach led to a 92\% reduction in the number of segments. Again, the results are similar to those of the Princeton researchers who achieved a 90\% reduction.
+
+    \section{Feature processing}
+        In order to be able to use clustering in the next step, the texts of the segments must first be transformed into a representation for which the similarities between the segments can be expressed mathematically (hereafter, the document means the internal text of the segment).  For this purpose, the Bag-of-Words model is used here. This model is a type of word embedding that represents a document as a string of the number of occurrences of words from a dictionary of all words used across all documents. 
+
+        However, many words do not have only one base form. Especially in the English language, a single word can have many forms due to inflections such as declension and conjugation. The basis of the Bag-of-Words model is the previously mentioned dictionary. If that dictionary contained all the occurrences of the different forms of words, the dictionary would be unnecessarily large and inefficient. For example, the distances of two very similar documents could be disproportionately large simply by rewriting them in a different tense.
+
+        This mischief can be avoided by stemming or lemmatisation, where stemming returns the roots of words. Lemmatization produces the basic forms of words (infinitive for verbs and first-person singular for nouns, adjectives, pronouns and numerals). Lemmatization also considers the context of the word and is, therefore, more accurate\cite{stemming-and-lemmatisation}. On the other hand, it is slower than stemming.
+
+        The Princeton researchers used stemming from the NLTK Python library\cite{nltk}. Still, because both methods (stemming and lemmatisation) depend on the language and because the NLTK library does not support the Czech language, another library had to be chosen.
+
+        Such a library is UDPipe\cite{udpipe} by the Institute of Formal and Applied Linguistics at Charles University. Also, one of the functionalities of this library is tokenisation in the Czech language, which is needed to split the documents into individual words (also referred to as tokens)\cite{tokenisation}.
+
+        Each document is tokenised during the dictionary creation process, producing a list of tokens for which lemmas are obtained and then added to the dictionary. Also, stop words from the Czech language and punction are filtered out of these lists.
+
+        The vocabulary after all the described steps above had a size of \textbf{~269K} tokens. However, this vocabulary still contained tokens, which did have not enough occurrences in the documents.
+
+        Furthermore, only those that appeared in the documents at least 100 times were selected. There were only 188 such tokens. The Count Vectorizer\cite{count-vectorizer} was used to create the BoW matrix, which counts the number of token occurrences in a document. 
+
+        Using Principal Component Analysis (PCA) with 3 retained components on the BoW matrix led to a dimensional reduction which captured 95\% of the variance in the data.
+
+    \section{Clustering}
+        The goal of clustering is to group data together. In this case, it means clustering segments into clusters based on similarity. The expert then evaluates the resulting clusters, which makes the expert's job of manual passes easier.
+
+        The clustering method used was HDBSCAN (Hierarchical Density-based Spatial Clustering of Applications with Noise). According to the Princeton researchers, they selected this clustering algorithm because it is robust to noise and, in particular, allows to choose the minimum size of the output clusters.
+
+        In total, HDBSCAN was performed for four different hyperparameter settings. The number of output clusters and the size of the noise cluster was analysed.  The metric used and the minimum cluster size mentioned earlier were the hyperparameters varied. The metrics used were $L_{1}$ and $L_{2}$ norms, also known as Manhattan and Euclidean distance. The hyperparameter of the minimum cluster sizes selected was 5 and 10 segments, which keep the size of noise small and prevents two or more clusters (that are separatable) from forming only one.
+
+        The analysis showed the number of clusters is significantly lower for the models with a minimum cluster size of 10 segments. Similarly, as for the results from Princeton researchers, the difference between selected metric distances was not very significant for data. As expected, models with a larger minimum cluster size have a larger noise cluster size. However, this noise cluster is slightly less than 50\% larger, while the number of all clusters is twice as small. Therefore, a model with a minimum cluster size of 5 segments was selected using the Manhattan distance as the metric with \textbf{4248} clusters (one cluster is the noise cluster). The table \ref{table:hyperparameters-hdbscan} summarised the number of clusters and size of noise for the given hyperparameters. 
+
+        \begin{table}[h!]
+            \centering
+            \begin{tabular}{r|cr|cr|}
+            Minimum cluster size  & \multicolumn{2}{c|}{5}                               & \multicolumn{2}{c|}{10}                              \\ \hline
+            Distance metric       & \multicolumn{1}{c|}{L1}    & \multicolumn{1}{c|}{L2} & \multicolumn{1}{c|}{L1}    & \multicolumn{1}{c|}{L2} \\ \hline
+            Number of clusters    & \multicolumn{1}{r|}{9040}  & 9088                    & \multicolumn{1}{r|}{4249}  & 4265                    \\ \hline
+            Size of noise cluster & \multicolumn{1}{r|}{80980} & 80083                   & \multicolumn{1}{r|}{98436} & 97651                   \\ \cline{1-5} 
+            \end{tabular}
+            \caption{Number of clusters and size of noise cluster for different distance metrics and minimum size of a cluster.}
+            \label{table:hyperparameters-hdbscan}
+        \end{table}
+
+    \section{Analysis of output clusters}
+    \label{section:analysis-of-output-clusters}
+        The clusters that were obtained in the previous step are manually scanned in two steps.
+
+        In both passes, I put myself in the role of an expert who evaluates what is and what is not a dark pattern. I used the knowledge I gained from writing the Dark patterns section. I also used available literature \cite{dark-patterns-brignull-types}\cite{dark-patterns-colin}\cite{kysar-douglas}\cite{taxonomies-tales}\cite{taxonomies-conti}. In uncertainty, I also used the Internet to find out examples what is and what is not a dark pattern, to keep my decisions even more objective. However, the subjective component could still play a role in the decision making process.
+
+        In the first pass, I selected those clusters for which any segment could manifest a dark pattern. For example, the selected clusters were commonly countdowns, total cart prices, user references, notifications, product options, logins and registrations. Only the text components of the segments were checked, not how the segment actually looks on the page. This pass resulted in the number of clusters being reduced from 4249 to 477.
+        
+        In pass two, I investigate these 477 clusters by directly visiting the website where the dark pattern is searched. If the page no longer exists or does not match the segment, then I investigated screenshots that were obtained during the simulated putchase flow instead. I extended this search by manually going through the entire shopping process directly on the web page and manually searching for all dark patterns.
+        
+        Lastly, this output dataset of found dark patterns is examined and cleaned from duplicities.

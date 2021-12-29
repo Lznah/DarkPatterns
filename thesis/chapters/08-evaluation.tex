@@ -1,0 +1,129 @@
+\chapter{Evaluation}
+
+At first, it is imporant to note the limitations of the analysis and the evaluation.
+
+\section{Limitations}
+As mentioned in the previous chapter, deciding what is still a harmless user inferface pattern and what is already a dark pattern is a complex task. It always depends on the subjective opinion of the expert. At the same time, different types of dark patterns affect each customer differently. To make the analysis to be more objective, several steps were done as described earlier in \nameref{section:section:analysis-of-output-clusters}. Also, more experts analysing the clusters would lead only to a more objective results.
+
+Another limitation of this work is that it considers only the textual segments on the page and ignores the appearance of these segments. Thus, it cannot find dark patterns in images, for example.
+
+During the analysis, it was also found that some webshops use dark patterns to increase their number of references on Heureka.cz. This behaviour could significantly affect their position in the overall ranking, especially for the lower-ranked webshops, where a small number of references can make a significant change in the rank.
+
+Lastly, not every webpage was a part of the analysis due to simulation of the checkout flow only. Homepage, listings of products, registration page, login page, and payment page were omitted in the flow.
+
+
+\begin{table}[h!]
+    \centering
+    \bgroup
+    \def\arraystretch{1.65}
+        \begin{tabular}{ll|l}
+            \toprule
+            \textbf{Category}                     & \textbf{Type}                      & \textbf{\# Instances}                     \\ \hline
+            Sneaking                              & Sneak into Basket                  & 2                                         \\
+                                                  & Hidden Costs                       & 0                                         \\
+                                                  & Hidden Subscription                & 0                                         \\ \hline
+            Urgency                               & Countdown Timer                    & 23                                        \\
+                                                  & Limited-time Message               & 17                                        \\ \hline
+            Misdirection                          & Confirmshaming                     & 0                                         \\
+                                                  & Visual Interference                & 28                                        \\
+                                                  & Trick Questions                    & 68                                        \\
+                                                  & Pressured Selling                  & 924                                       \\ \hline
+            Social Proof                          & Activity Message                   & 223                                       \\
+                                                  & Testimonials                       & 19                                        \\ \hline
+            Scarcity                              & Low-stock Message                  & 38                                        \\
+                                                  & High-demand Message                & 7                                         \\ \hline
+            Obstruction                           & Hard to Cancel                     & 6                                         \\ \hline
+            Forced Action                         & Forced Enrollment                  & 75                                        \\ \hline                                       
+            \end{tabular}
+        \egroup
+    \caption{Number of Dark patterns instances found on Czech webshops, divided into categories and types.}
+    \label{table:summary-dark-patterns}
+\end{table}
+
+\section{Webshops using Dark patterns prevelance}
+
+A total number of 1419 dark patterns were found on 1081 webshops from a total of 10K webshops, which makes 10.81\% of all webshops to contains at least one instance of Dark Pattern. No dark patterns of the Hidden Costs, Corfirmshaming and Hidden Subscription types were found during the manual passes. The found instances of Dark Pattern are divided into categories and types showed in table \ref{table:summary-dark-patterns}.
+
+\begin{figure}
+    \begin{center}
+        \input{./media/graphs/freq-histogram-dp.pgf}
+    \end{center}
+    \caption{Distribution of webshops using at least one Dark Pattern over the ranking in Heureka's webshop list. Each bin is a size of two hundred webshops, representing a percentage prevalence of webshops containing dark patterns within the bin.}
+    \label{fig:dp-percentage}
+\end{figure}
+
+It can be seen in the figure \ref{fig:dp-percentage} that the position in the Heureka's ranking of Czech webshops has a slightly negative correlation to the number of webshops in each bin, using at least one dark pattern. Using a Spearman's $\rho$ to test the monotonicity of a probability of finding a dark pattern on a webshop is considered as statistically dependent to the position in the Heureka's ranking--i.e webshops higher in the ranking are more likely to use dark patterns ($\text{Spearman's }\rho=-0.291$, $\text{p-value}=0.040 < 0.05)$).
+
+Also, a number of instances over the ranking for every defined dark pattern types is showed in figure \ref{fig:dp-types-in-ranking}. The monotonicities of the dark pattern types were not tested, because of a low number of instances for some types of dark patterns. However, it can be seen, that all of the dark pattern types were used over the whole spectrum of Heureka's ranking and none type was used only by the top webshops.
+
+\begin{figure}
+    \begin{center}
+        \input{./media/graphs/dp-by-type.pgf}
+    \end{center}
+    \caption{Distribution of different types of dark patterns over the ranking in Heureka's webshop list. Each bin is a size of two hundred webshops, representing a number of dark patterns of the type within the bin.}
+\end{figure}
+
+\section{E-commerce solutions}
+Utilizing the segments gathered from the page segmentation, which are stored in the SQLite database, it is possible to select webshops, that uses a ready-to-use e-commerce solution for Czech market. Usually, the companies providing such solutions include their names in the footer of the websites. The biggest and very frequently used solutions are recommended in multiple articles on the Internet\cite{5nej}\cite{lupacz}\cite{nastrojeproweb}\cite{entuzio}\cite{compari}. By reading these articles, five such solutions were chosen for testing their market share in the top 10K webshops in the Heureka's ranking. Table \ref{table:ecommerce-solutions} shows total numbers of webshops using these solutions. Figure \ref{ecommerce-solutions-histograms} show the distribution of these five e-commerce solutions over the Heureka's rank. 
+
+A total number of ~2.37K webshops use on one of the defined e-commerce solutions, which is 23.7\% out of all tested webshops. As expected, Shoptet.cz is the most used one with a share of 68\%.
+
+\begin{table}[h!]
+    \centering
+    \bgroup
+    \def\arraystretch{1.65}
+        \begin{tabular}{l|r|r}
+            \toprule
+            \textbf{Solution}    & \multicolumn{1}{l}{\textbf{\# of websites}}  & \multicolumn{1}{l}{\textbf{Share [\%]}} \\ \hline
+            Shoptet.cz           & 1618                                         &  68.2                                  \\
+            Eshop-rychle.cz      & 570                                          &  24.0                                  \\
+            FASTCentrik.cz       & 103                                          &  4.3                                   \\
+            Upgates.cz           & 60                                           &  2.5                                   \\
+            Webnode.cz           & 22                                           &  0.9                                   \\ \hline
+            \textbf{Total}       & \textbf{2373}
+        \end{tabular}
+    \egroup
+    \caption{Number of Dark patterns instances found on Czech webshops, divided into categories and types.}
+    \label{table:ecommerce-solutions}
+\end{table}
+
+\begin{figure}
+    \begin{center}
+        \input{./media/graphs/ecommerce-solutions-histograms.pgf}
+    \end{center}
+    \caption{Distributions of five most used e-commerce solutions over the Heureka's rank with a distribution of a sum of them all. Each bin is a size of two hundred webshops.}
+    \label{fig:ecommerce-solutions-histograms}
+\end{figure}
+
+\begin{table}[h!]
+    \centering
+    \bgroup
+    \def\arraystretch{1.65}
+    \setlength\tabcolsep{1.2em}
+        \begin{tabular}{l|c|c|c|c|c}
+            \multicolumn{1}{c|}{} & \rotatebox[origin=l]{90}{Shoptet.cz} & \rotatebox[origin=l]{90}{Eshop-rychle.cz} & \rotatebox[origin=l]{90}{ASTCentrik.cz} & \rotatebox[origin=l]{90}{Upgates.cz} & \rotatebox[origin=l]{90}{Webnode.cz}    \\ \hline
+            Sneak into Basket     & \xmark     & \xmark          & \xmark         & \xmark     & \xmark      \\
+            Hidden Costs          & \xmark     & \xmark          & \xmark         & \xmark     & \xmark      \\
+            Hidden Subscription   & \xmark     & \xmark          & \xmark         & \xmark     & \xmark      \\ \hline
+            Countdown Timer       & \cmark     & \xmark          & \xmark         & \xmark     & \xmark      \\
+            Limited-time Message  & \cmark     & \xmark          & \xmark         & \xmark     & \xmark      \\ \hline
+            Confirmshaming        & \xmark     & \xmark          & \xmark         & \xmark     & \xmark      \\
+            Visual Interference   & \cmark     & \xmark          & \xmark         & \xmark     & \xmark      \\
+            Trick Questions       & \cmark     & \xmark          & \cmark         & \cmark     & \xmark      \\
+            Pressured Selling     & \cmark     & \cmark          & \cmark         & \cmark     & \xmark      \\ \hline
+            Activity Message      & \cmark     & \cmark          & \cmark         & \cmark     & \xmark      \\
+            Testimonials          & \xmark     & \xmark          & \xmark         & \xmark     & \xmark      \\ \hline
+            Low-stock Message     & \cmark     & \xmark          & \xmark         & \xmark     & \xmark      \\
+            High-demand Message   & \cmark     & \xmark          & \xmark         & \xmark     & \xmark      \\ \hline
+            Hard to Cancel        & \xmark     & \xmark          & \xmark         & \xmark     & \xmark      \\ \hline
+            Forced Enrollment     & \cmark     & \cmark          & \cmark         & \cmark     & \xmark      \\ \hline
+        \end{tabular}
+    \egroup
+    \caption{Types of discovered Dark Patterns on the five most used czech E-commerce solutions.}
+    \label{table:ecommerce-solutions}
+\end{table}
+
+\section{Third-party dark pattern providers}
+Compared to the English Internet, which has many providers of Dark Patterns as a Social Proof notification\cite{dark-patterns-at-scale}, the Czech Internet has only one such provider. The provider's name is Notifikuj.cz. During the analysis, no other provider was found to be used, even searching the Internet did not lead to discovery of any other provider.
+
+Notifikuj.cz provides dark patterns in a form of push notifications on a webpage. 
