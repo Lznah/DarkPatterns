@@ -244,7 +244,7 @@
 
 % adjust settings for minted if used
 \AtBeginDocument {%
-	\renewcommand*{\today}{16th of May, 2019} % FIXME
+	\renewcommand*{\today}{5th of January, 2022} % FIXME
 	\@ifpackageloaded {minted} {%
 		% use smaller font in code listings
 		\AtBeginEnvironment {minted} { \singlespacing \fontsize{11}{11} \selectfont }
@@ -634,6 +634,7 @@ of works or by adapting the Work (including translation), and at the same time m
 	\titlepage
 
 	\setcounter{page}{5}
+	\thispagestyle{empty}
 	\acknowledgementspage
 
 	\declarationofauthenticitypage
@@ -642,8 +643,14 @@ of works or by adapting the Work (including translation), and at the same time m
 	\abstractpage
 
 	\cleardoublepage
-	\pagestyle{plain}
+	\pagestyle{empty}
+	\addtocontents{toc}{\protect\thispagestyle{empty}}
 	\tableofcontents*
+
+	\makeatletter
+	\let\ps@mystyle\ps@plain %HERE
+	\let\ps@plain\ps@empty
+	\makeatother
 
 	\cleardoublepage
 	\listoflistingscond
@@ -657,5 +664,13 @@ of works or by adapting the Work (including translation), and at the same time m
 	\cleardoublepage
 	\listoffigurescond
 
+
+	\pagestyle{empty}
+	\makeatletter
+	\let\ps@plain\ps@mystyle %HERE
+	\makeatother
+
 	\pagestyle{ruled}
+
 }
+

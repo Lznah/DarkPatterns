@@ -44,7 +44,7 @@ def write_to_file(file_path, data):
 if DEBUG:
     NUM_BROWSERS = 1
 else:
-    NUM_BROWSERS = 7
+    NUM_BROWSERS = 31
 NUM_BATCH = 1000000
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 
@@ -56,8 +56,8 @@ if DEBUG:
 
 prefix = date_prefix + '_segmentation_pilot'
 manager_params['database_name'] = prefix + '.sqlite'
-manager_params['data_directory'] = '~/' + prefix
-manager_params['log_directory'] = '~/' + prefix
+manager_params['data_directory'] = '~/data/' + prefix
+manager_params['log_directory'] = '~/data/' + prefix
 manager_params['testing'] = DEBUG
 # Read the site list
 

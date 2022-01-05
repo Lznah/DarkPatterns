@@ -107,7 +107,7 @@ def get_prod_likelihoods(urls, as_dict=False):
         return []
     df = pd.DataFrame.from_records([(url,) for url in urls], columns=["url"])
     X = build_features(df, load_scaler_from_file=True)
-    model_filename = '../../classifiers/product_page/SGDClassifier.est'
+    model_filename = '../../classifier/product_page/SGDClassifier.est'
     with open(model_filename, 'rb') as f:
         sgd_est = pickle.load(f)
     # [1] for product probability

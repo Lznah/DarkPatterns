@@ -1,0 +1,25 @@
+\label{Conclusion}
+
+This thesis described known dark patterns, and examples were found from the Czech Internet. The taxonomy of these dark patterns was also described and the effects that dark patterns use in users' cognitive biases.
+
+Automated web crawlers were created to mine the Heureka page. This created a dataset that contains a large fraction of Czech webshops and their locations, which corresponds to the approximate size and popularity of the webshop. This dataset was also cleaned of no longer active webshops and duplicates.
+
+The original crawlers developed by Princeton researchers to retrieve product pages and to simulate the shopping process were modified to work for Czech webshops.
+
+For the first crawler, it was necessary to manually crawl Czech webshops and create a balanced dataset of URLs that are and are not product pages. This data was then used during the learning phase of the classification model, which was used to find even more product pages.
+
+In the case of the second crawler, it was again necessary to manually go through the shopping process on the webshops. The most common Czech phrases in the buttons used to navigate this shopping process's steps were extracted. These phrases were used to modify the crawler, which can now simulate the shopping process on Czech webshops. Many screenshots, HTML and HAR files of individual pages were saved. All page segments of the web pages were also saved.
+
+These extracted segments were first clustered using machine learning methods. This reduced millions of segments into thousands of clusters. These clusters were then manually crawled in two passes. The first pass selected those clusters that were suspicious of the possibility of a dark pattern. This approach reduced the number of clusters to hundreds. During the second pass, websites from these clusters were directly visited or screenshots previously obtained were examined. 
+
+In total, 1,419 dark patterns were discovered on 1,081 of the 10K webshops crawled. Thus, at least one instance of a dark pattern was found on approximately ~10.81\% of all webshops. The found instances were categorized in the types of dark patterns. It was also found that larger webshops use dark patterns more often.
+
+The evaluation also included whether the webshops were built on one of the five largest Czech e-commerce solutions for webshop development. This revealed that approximately 23.7\% of webshops are built on one of these five solutions. It was also found out which solutions actively use which types of dark patterns.
+
+Another finding was the analysis of a service that provides dark patterns in the form of push notifications. This service was found on 0.55\% of all webshops, and apparently, larger webshops use this service more often.
+
+Lastly, three frequently used dark patterns found on Czech webshops were described, and their examples were shown. Instances of these three dark patterns make 63\% of the whole dataset of all instances.
+
+Much of the original code has been rewritten to Python 3, making it easier to use in the future.
+
+All the datasets, screenshots, HTML and HAR files obtained can be further researched. The model for classifying production pages can also be used in other crawlers. For example, it can be used by a crawler to easily find product pages of competing webshops or for a prices aggregator. Also, the extracted dataset of dark patterns can be used to create a web browser add-on that will alert users to dark patterns on a page.

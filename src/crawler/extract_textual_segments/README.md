@@ -1,6 +1,10 @@
 OpenWPM [![Build Status](https://travis-ci.org/citp/OpenWPM.svg?branch=master)](https://travis-ci.org/citp/OpenWPM)
 =======
 
+Petr Hanzl: I edited the work from https://github.com/aruneshmathur/dark-patterns/ for my diploma thesis.
+I used the original crawler and I changed it to work for Czech language. I did a study for Czech webshops.
+During my thesis I encountered problems with Xvfb, which was randomly killed. The Xvfb is now restarted if it is killed.
+
 OpenWPM is a web privacy measurement framework which makes it easy to
 collect data for privacy studies on a scale of thousands to millions
 of websites. OpenWPM is built on top of Firefox, with automation provided

@@ -29,7 +29,6 @@
 \floatstyle{plaintop}
 \restylefloat{table}
 
-\setcounter{tocdepth}{2}
 
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
@@ -168,26 +167,22 @@
 
 \input{meta.tex}
 \begin{document}
-
 \begin{introduction}
-    \input{"chapters/00-introduction.tex"}
+    \setcounter{page}{1}
+    \input{"chapters/0-introduction.tex"}
 \end{introduction}
 
-\input{"chapters/01-state-of-the-art.tex"}
-\input{"chapters/02-dark-patterns.tex"}
-\input{"chapters/03-machine-learning.tex"}
-% \input{"chapters/04-setup.tex"}
-\input{"chapters/05-corpus-creation.tex"}
-\input{"chapters/06-data-collection.tex"}
-\input{"chapters/07-data-analysis.tex"}
-\input{"chapters/08-evaluation.tex"}
+\input{"chapters/1-state-of-the-art.tex"}
+\input{"chapters/2-dark-patterns.tex"}
+\input{"chapters/3-corpus-creation.tex"}
+\input{"chapters/4-data-collection.tex"}
+\input{"chapters/5-data-analysis.tex"}
 
 \begin{conclusion}
-    \input{"chapters/9x-conclusion.tex"}
+    \input{"chapters/9-conclusion.tex"}
 \end{conclusion}
 
 \printbibliography[]
-
 
 \appendix
 

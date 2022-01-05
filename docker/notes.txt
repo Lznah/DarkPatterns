@@ -1,5 +1,0 @@
-11.3.
-
-Nebylo možné jednoduše pracovat mezi více operačními systémy. Nepodařilo se mi rozjet knihovnu polyglot, respektive knihovnu icu, kterou tato knihovna používá.
-
-Proto jsem se rozhodl, že upravím práci s crawlerem a vrátím se zpět k dockeru. Bude to fungovat trochu jinak. Jeden container bude pracovat vícevláknově. Data se ale budou ukládat do složky.
