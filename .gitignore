@@ -5,3 +5,4 @@ __venv__
 .ipynb_checkpoints
 .vscode
 main-*.pdf
+media/psds
